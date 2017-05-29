@@ -4,7 +4,6 @@ testing text 2
 testing text 3
 test change 0
 test change 1
-<<<<<<< HEAD
 test change 2
 test change 3
 test change 4
@@ -14,6 +13,5 @@ test change 7
 test change 8
 change by cheng yu
 
-=======
-test change 2
->>>>>>> parent of 56468fe... commit by cheng yu
+
+commit by cheng yu
