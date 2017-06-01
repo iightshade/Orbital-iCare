@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "121443041960",
+    "firebase_url": "https://orbitalproj.firebaseio.com",
+    "project_id": "orbitalproj",
+    "storage_bucket": "orbitalproj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121443041960:android:40a645ca851d8d1f",
+        "android_client_info": {
+          "package_name": "com.logcat.example.pc.orbitalproj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "121443041960-mendj4b4e9tfqceaii5bp19ho81asm1e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4TDgXD4LfFTaaG0hRuW5xj93s2_u_vXk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
