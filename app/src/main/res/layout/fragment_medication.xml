@@ -3,11 +3,23 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/medicalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="58dp"
         android:text="Medication"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/changeButton"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/changeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp" />
+        android:layout_marginTop="99dp"
+        android:text="change" />
+
+
+
 </RelativeLayout>

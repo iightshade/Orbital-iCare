@@ -45,9 +45,20 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                         }
                         final FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.replace(R.id.main_container, fragment).commit();
+                        transaction.replace(R.id.main_container, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                         return true;
                     }
                 });
     }
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }
