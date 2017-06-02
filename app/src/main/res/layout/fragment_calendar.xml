@@ -7,15 +7,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    tools:context=".CalendarFragment">
 
-    <!-- CalendarView with monday as first day and minmal and maximal day -->
+    <!-- CalendarView with monday as first day -->
     <CalendarView
         android:id="@+id/simpleCalendarView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:firstDayOfWeek="2"
-        />
+        android:firstDayOfWeek="2" />
 
 
 </RelativeLayout>
