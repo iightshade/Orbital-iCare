@@ -5,20 +5,20 @@
         android:id="@+id/medication"
         android:enabled="true"
         android:icon="@drawable/common_full_open_on_phone"
-        android:title="temp"
+        android:title="Medication"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/calendar"
         android:enabled="true"
         android:icon="@drawable/common_full_open_on_phone"
-        android:title="temp"
+        android:title="Calendar"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/userInfo"
         android:enabled="true"
         android:icon="@drawable/common_full_open_on_phone"
-        android:title="temp"
-        app:showAsAction="ifRoom"/>
+        android:title="User Info"
+        app:showAsAction="ifRoom" />
 </menu>
