@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/medication"
+        android:enabled="true"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="temp"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/calendar"
+        android:enabled="true"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="temp"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/userInfo"
+        android:enabled="true"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="temp"
+        app:showAsAction="ifRoom"/>
+</menu>
