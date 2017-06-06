@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.userInfo:
                                 fragment = new UserinfoFragment();
                                 break;
+                            case R.id.settings:
+                                fragment=new SettingsFragment();
+                                break;
                         }
                         final FragmentTransaction transaction = fragmentManager.beginTransaction();
                         transaction.replace(R.id.main_container, fragment);

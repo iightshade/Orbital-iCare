@@ -21,4 +21,11 @@
         android:icon="@drawable/common_full_open_on_phone"
         android:title="User Info"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/settings"
+        android:enabled="true"
+        android:icon="@drawable/common_full_open_on_phone"
+        android:title="Settings"
+        app:showAsAction="ifRoom" />
 </menu>
