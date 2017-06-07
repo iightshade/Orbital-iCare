@@ -1,9 +1,5 @@
 package com.logcat.example.pc.orbitalproj;
 
-/**
- * Created by PC on 6/2/2017.
- */
-
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,22 +19,15 @@ import org.w3c.dom.Text;
 
 public class MedicationFragment extends Fragment {
 
-    private static TextView medicalTextView;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_medication, container, false);
-        medicalTextView = (TextView)view.findViewById(R.id.medicalTextView);
 
-        final Button changeButton = (Button)view.findViewById(R.id.changeButton);
-
-        changeButton.setOnClickListener(
-                new View.OnClickListener(){
-                    public void onClick(View v){
-                        medicalTextView.setText("Changed");
-                    }
-                }
-        );
         return view;
 
     }

@@ -2,24 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/medicalTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="58dp"
-        android:text="Medication"
-        android:layout_alignBottom="@+id/changeButton"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/changeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+    <GridView
+        android:id="@+id/medicationGridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="99dp"
-        android:text="change" />
+        android:layout_centerVertical="true"
+        android:stretchMode="columnWidth"
+        android:numColumns="2"
+        >
 
-
+    </GridView>
 
 </RelativeLayout>
