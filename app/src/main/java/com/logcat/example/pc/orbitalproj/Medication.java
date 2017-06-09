@@ -25,7 +25,7 @@ public class Medication extends Object implements Parcelable{
         medicationTitle = in.readString();
         medicationDescription = in.readString();
     }
-    
+
 
     public String getMedicationId() {
         return medicationId;

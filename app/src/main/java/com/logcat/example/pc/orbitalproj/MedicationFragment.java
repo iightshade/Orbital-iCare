@@ -46,7 +46,7 @@ public class MedicationFragment extends Fragment {
     DatabaseReference userReference;
 
     String userId;
-    String medicationId;
+    Medication medicationId;
     Medication temp;
     ArrayList<Medication> tempList;
 
@@ -73,7 +73,7 @@ public class MedicationFragment extends Fragment {
         userReference.child(medicationId).setValue(temp);
         */
 
-        //For testing, to be removed
+        //For adding some items to database, to be removed and referenced into 'add medication'
 
     }
 
@@ -87,6 +87,9 @@ public class MedicationFragment extends Fragment {
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                tempList = new ArrayList<Medication>();
+                tempList.clear();
 
                 for(DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
 
@@ -116,7 +119,8 @@ public class MedicationFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(getActivity(), MedicationDialog.class);
-                intent.putExtra("Medicine", temp);
+                medicationId = tempList.get(position);
+                intent.putExtra("Medicine", medicationId);
                 startActivity(intent);
 
             }
