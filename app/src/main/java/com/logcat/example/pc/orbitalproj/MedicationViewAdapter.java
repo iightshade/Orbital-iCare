@@ -2,7 +2,7 @@ package com.logcat.example.pc.orbitalproj;
 
 
 import android.app.Activity;
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +46,7 @@ public class MedicationViewAdapter extends BaseAdapter{
 
         View view;
         TextView medicationMainTitle;
-        TextView medicationSubTitle;
+        TextView medicationDescription;
 
         if(convertView == null){
 
@@ -59,12 +59,12 @@ public class MedicationViewAdapter extends BaseAdapter{
         }
 
         medicationMainTitle = (TextView)view.getTag(R.id.medicationMainTitle);
-        medicationSubTitle = (TextView)view.getTag(R.id.medicationSubTitle);
+        medicationDescription = (TextView)view.getTag(R.id.medicationSubTitle);
 
         Medication medication = (Medication)getItem(position);
 
-        medicationMainTitle.setText(medication.getMainTitle());
-        medicationSubTitle.setText(medication.getSubTitle());
+        medicationMainTitle.setText(medication.getMedicationTitle());
+        medicationDescription.setText(medication.getMedicationDescription());
 
         return view;
     }
