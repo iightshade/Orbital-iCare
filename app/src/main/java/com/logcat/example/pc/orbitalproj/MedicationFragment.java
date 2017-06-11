@@ -34,6 +34,10 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
+
+import static com.logcat.example.pc.orbitalproj.R.layout.add_new_medication;
+import static com.logcat.example.pc.orbitalproj.R.layout.medication_edit;
 
 
 public class MedicationFragment extends Fragment {
@@ -46,6 +50,7 @@ public class MedicationFragment extends Fragment {
     DatabaseReference userReference;
 
     String userId;
+    String medicationIdTest;
     Medication medicationId;
     Medication temp;
     ArrayList<Medication> tempList;
@@ -66,11 +71,11 @@ public class MedicationFragment extends Fragment {
         userReference = firebaseDatabase.getReference(userId);
 
         /*
-        medicationId = userReference.push().getKey();
-        temp = new Medication(medicationId, "So much", "medication");
+        medicationIdTest = userReference.push().getKey();
+        temp = new Medication(medicationIdTest, "So much", "medication");
         tempList= new ArrayList<Medication>();
         tempList.add(temp);
-        userReference.child(medicationId).setValue(temp);
+        userReference.child(medicationIdTest).setValue(temp);
         */
 
         //For adding some items to database, to be removed and referenced into 'add medication'
@@ -98,8 +103,12 @@ public class MedicationFragment extends Fragment {
 
                 }
 
+                Medication addNewMedication = null;
+                tempList.add(addNewMedication);
+
                 MedicationViewAdapter adapter = new MedicationViewAdapter(getActivity(), tempList);
                 medicationGridView.setAdapter(adapter);
+
             }
 
             @Override
@@ -118,13 +127,21 @@ public class MedicationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent(getActivity(), MedicationDialog.class);
-                medicationId = tempList.get(position);
-                intent.putExtra("Medicine", medicationId);
-                startActivity(intent);
+                if (tempList.size() == (position + 1)) {
+                    Intent intent = new Intent(getActivity(), MedicationEdit.class);
+                    startActivity(intent);
 
+                } else {
+
+                    Intent intent = new Intent(getActivity(), MedicationDialog.class);
+                    medicationId = tempList.get(position);
+                    intent.putExtra("Medicine", medicationId);
+                    startActivity(intent);
+
+                }
             }
         });
 
     }
+
 }

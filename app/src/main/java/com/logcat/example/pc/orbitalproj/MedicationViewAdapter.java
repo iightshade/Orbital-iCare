@@ -48,24 +48,32 @@ public class MedicationViewAdapter extends BaseAdapter{
         TextView medicationMainTitle;
         TextView medicationDescription;
 
-        if(convertView == null){
+        if ((position + 1) == medicationArrayList.size()) {
 
-            view = layoutInflater.inflate(R.layout.medication_frame, parent, false);
-            view.setTag(R.id.medicationMainTitle, view.findViewById(R.id.medicationMainTitle));
-            view.setTag(R.id.medicationSubTitle, view.findViewById(R.id.medicationSubTitle));
+            view = layoutInflater.inflate(R.layout.add_new_medication, parent, false);
+            return view;
 
-        }else{
-            view = convertView;
+        } else {
+
+            if (convertView == null) {
+
+                view = layoutInflater.inflate(R.layout.medication_frame, parent, false);
+                view.setTag(R.id.medicationMainTitle, view.findViewById(R.id.medicationMainTitle));
+                view.setTag(R.id.medicationSubTitle, view.findViewById(R.id.medicationSubTitle));
+
+            } else {
+                view = convertView;
+            }
+
+            medicationMainTitle = (TextView) view.getTag(R.id.medicationMainTitle);
+            medicationDescription = (TextView) view.getTag(R.id.medicationSubTitle);
+
+            Medication medication = (Medication) getItem(position);
+
+            medicationMainTitle.setText(medication.getMedicationTitle());
+            medicationDescription.setText(medication.getMedicationDescription());
+
+            return view;
         }
-
-        medicationMainTitle = (TextView)view.getTag(R.id.medicationMainTitle);
-        medicationDescription = (TextView)view.getTag(R.id.medicationSubTitle);
-
-        Medication medication = (Medication)getItem(position);
-
-        medicationMainTitle.setText(medication.getMedicationTitle());
-        medicationDescription.setText(medication.getMedicationDescription());
-
-        return view;
     }
 }
