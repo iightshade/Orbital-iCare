@@ -2,7 +2,6 @@ package com.logcat.example.pc.orbitalproj;
 
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,7 @@ public class MedicationViewAdapter extends BaseAdapter{
 
         if ((position + 1) == medicationArrayList.size()) {
 
-            view = layoutInflater.inflate(R.layout.add_new_medication, parent, false);
+            view = layoutInflater.inflate(R.layout.medication_add_new, parent, false);
             return view;
 
         } else {
