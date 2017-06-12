@@ -34,10 +34,10 @@ public class LoginActivity extends AppCompatActivity {
 
         //KIV unsure how to solve
 
-        /*if (auth.getCurrentUser() != null) {
+        if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
-        }*/
+        }
 
         // set the view now
 
