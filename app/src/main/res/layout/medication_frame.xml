@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="100dp">
 
 
     <TextView
         android:id="@+id/medicationMainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        android:textSize="35sp"
-        android:text="medicationMainTitle" />
+        android:text="medicationMainTitle"
+        android:textSize="35sp" />
 
     <TextView
         android:id="@+id/medicationSubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="medicationSubTitle"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:layout_gravity="center_horizontal"
+        android:text="medicationSubTitle"
         android:textSize="25sp" />
 
-</FrameLayout>
+
+</RelativeLayout>

@@ -50,6 +50,7 @@ public class MedicationViewAdapter extends BaseAdapter{
         if ((position + 1) == medicationArrayList.size()) {
 
             view = layoutInflater.inflate(R.layout.medication_add_new, parent, false);
+
             return view;
 
         } else {

@@ -32,6 +32,7 @@ public class MedicationFragment extends Fragment {
     DatabaseReference userReference;
 
     String userId;
+
     String medicationIdTest;
     Medication medicationId;
     Medication temp;
@@ -51,16 +52,6 @@ public class MedicationFragment extends Fragment {
 
         userId = firebaseUser.getUid();
         userReference = firebaseDatabase.getReference(userId);
-
-        /*
-        medicationIdTest = userReference.push().getKey();
-        temp = new Medication(medicationIdTest, "So much", "medication");
-        tempList= new ArrayList<Medication>();
-        tempList.add(temp);
-        userReference.child(medicationIdTest).setValue(temp);
-        */
-
-        //For adding some items to database, to be removed and referenced into 'add medication'
 
     }
 

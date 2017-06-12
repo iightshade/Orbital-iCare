@@ -47,14 +47,16 @@ public class MedicationDialog extends AppCompatActivity{
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                intent = new Intent(MedicationDialog.this , MedicationEdit.class);
+                intent.putExtra("Medicine", medication);
+                startActivity(intent);
             }
         });
 
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MedicationDialog.this , MainActivity.class);
+                intent = new Intent(MedicationDialog.this , MainActivity.class);
                 startActivity(intent);
                 finish();
             }
