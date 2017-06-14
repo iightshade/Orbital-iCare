@@ -1,24 +1,28 @@
 package com.logcat.example.pc.orbitalproj;
 
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Medication extends Object implements Parcelable{
+public class Medication extends Object implements Parcelable {
 
     private String medicationId;
     private String medicationTitle;
     private String medicationDescription;
 
-    public Medication(String medicationId, String medicationTitle, String medicationDescription){
+
+    public Medication(String medicationId, String medicationTitle, String medicationDescription) {
         this.medicationId = medicationId;
         this.medicationTitle = medicationTitle;
         this.medicationDescription = medicationDescription;
     }
 
-    public Medication(){
+    public Medication() {
 
     }
+
 
     protected Medication(Parcel in) {
         medicationId = in.readString();
@@ -51,6 +55,18 @@ public class Medication extends Object implements Parcelable{
         this.medicationDescription = medicationDescription;
     }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(medicationId);
+        dest.writeString(medicationTitle);
+        dest.writeString(medicationDescription);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     public static final Creator<Medication> CREATOR = new Creator<Medication>() {
         @Override
         public Medication createFromParcel(Parcel in) {
@@ -62,16 +78,7 @@ public class Medication extends Object implements Parcelable{
             return new Medication[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(medicationId);
-        dest.writeString(medicationTitle);
-        dest.writeString(medicationDescription);
-    }
 }
+
+
+

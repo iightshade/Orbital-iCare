@@ -33,7 +33,6 @@ public class MedicationFragment extends Fragment {
 
     String userId;
 
-    String medicationIdTest;
     Medication medicationId;
     Medication temp;
     ArrayList<Medication> tempList;
