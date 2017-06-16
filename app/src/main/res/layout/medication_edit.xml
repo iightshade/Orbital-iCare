@@ -1,78 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentStart="true">
+
+    <RelativeLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="Medication name:"
-        android:textSize="30sp"
-        android:layout_marginTop="10dp" />
+        android:textSize="25sp" />
 
     <EditText
         android:id="@+id/medicationTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="0dp"
         android:ems="10"
         android:hint="Enter here"
         android:inputType="text|textAutoComplete"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp"/>
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp" />
+
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/medicationTitleTextView"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:text="Medication description:"
-        android:textSize="30sp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/medicationTitleTextView" />
+        android:textSize="25sp" />
 
     <EditText
         android:id="@+id/medicationDescriptionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="0dp"
         android:ems="10"
         android:hint="Enter here"
         android:inputType="textMultiLine|textLongMessage"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/textView3" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
     <ImageView
         android:id="@+id/medicationImage"
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:layout_below="@+id/medicationDescriptionTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/medicationDescriptionTextView"
         app:srcCompat="@mipmap/ic_launcher" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp">
 
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="150dp"
+        <TextView
+            android:id="@+id/timeTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Save" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/medicationImage"
+            android:onClick="setTime"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="00:00 AM"
+            android:textSize="25sp" />
 
-        <Button
-            android:id="@+id/cancelButton"
-            android:layout_width="150dp"
+        <TextView
+            android:id="@+id/datesTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Cancel" />
-    </LinearLayout>
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/timeTextView"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="Mon, Tues, Wed, Thurs, Fri, Sat, Sun"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:layout_below="@id/datesTextView"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
+
+
+
 
 
 

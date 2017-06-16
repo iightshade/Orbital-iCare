@@ -5,6 +5,7 @@ import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -23,6 +24,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 
@@ -49,6 +52,9 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 public class MedicationEdit extends AppCompatActivity {
 
     FirebaseAuth userAuth;
@@ -67,6 +73,11 @@ public class MedicationEdit extends AppCompatActivity {
     EditText medicationDescriptionTextView;
     Medication medicationInEdit;
     ImageView medicationImage;
+    TextView timeTextView;
+    String medicationHour;
+    String medicationMinute;
+    int currentHour;
+    int currentMinute;
     Button saveButton;
     Button cancelButton;
 
@@ -94,6 +105,7 @@ public class MedicationEdit extends AppCompatActivity {
         medicationTitleTextView = (EditText) findViewById(R.id.medicationTitleTextView);
         medicationDescriptionTextView = (EditText) findViewById(R.id.medicationDescriptionTextView);
         medicationImage = (ImageView) findViewById(R.id.medicationImage);
+        timeTextView = (TextView)findViewById(R.id.timeTextView);
         saveButton = (Button) findViewById(R.id.saveButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
 
@@ -122,8 +134,16 @@ public class MedicationEdit extends AppCompatActivity {
                 }
             });
 
+            medicationHour = medicationInEdit.getMedicationHour();
+            medicationMinute = medicationInEdit.getMedicationMinute();
+            currentHour = Integer.parseInt(medicationHour);
+            currentMinute = Integer.parseInt(medicationMinute);
+            setTimeTextView(currentHour, currentMinute);
+
         } else {
             medicationId = userReference.push().getKey();
+            currentHour = 0;
+            currentMinute = 0;
         }
 
         medicationImage.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +153,30 @@ public class MedicationEdit extends AppCompatActivity {
             }
         });
 
+        timeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final TimePickerDialog timePickerDialog = new TimePickerDialog(MedicationEdit.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                  int minute) {
+                                medicationHour = Integer.toString(hourOfDay);
+                                medicationMinute = Integer.toString(minute);
+
+                                currentHour = hourOfDay;
+                                currentMinute = minute;
+
+                                setTimeTextView(hourOfDay, minute);
+
+                            }
+                        }, currentHour, currentMinute, false);
+                timePickerDialog.show();
+            }
+        });
+
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +184,10 @@ public class MedicationEdit extends AppCompatActivity {
                 medicationInEdit = new Medication(
                         medicationId,
                         medicationTitleTextView.getText().toString(),
-                        medicationDescriptionTextView.getText().toString());
+                        medicationDescriptionTextView.getText().toString(),
+                        medicationHour,
+                        medicationMinute);
+
                 userReference.child(medicationId).setValue(medicationInEdit);
 
                 if (uri != null) {
@@ -155,14 +202,14 @@ public class MedicationEdit extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(MedicationEdit.this, "file uploaded", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MedicationEdit.this, "File uploaded", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception exception) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(MedicationEdit.this, "file failed", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MedicationEdit.this, "Upload failed", Toast.LENGTH_SHORT).show();
                                 }
                             }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -174,7 +221,9 @@ public class MedicationEdit extends AppCompatActivity {
                             });
 
                 } else {
-                    Toast.makeText(MedicationEdit.this, "Failed\nPlease enter an image", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
 
             }
@@ -223,6 +272,41 @@ public class MedicationEdit extends AppCompatActivity {
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE
             );
+        }
+    }
+
+    private void setTimeTextView(int numHour, int numMinute){
+
+        Boolean isMorning = true;
+        String hourString;
+        String minuteString;
+
+        if(numHour >= 12) {
+            isMorning = false;
+        }
+
+        if(numHour > 12){
+            numHour = (numHour - 12);
+        }
+
+        if(numHour < 10){
+            hourString = "0" + Integer.toString(numHour);
+        }else{
+            hourString = Integer.toString(numHour);
+        }
+
+        if(numMinute < 10){
+            minuteString = "0" + Integer.toString(numMinute);
+        }else{
+            minuteString = Integer.toString(numMinute);
+        }
+
+        timeTextView.setText(hourString + ":" + minuteString);
+
+        if(isMorning == true){
+            timeTextView.append(" AM");
+        }else{
+            timeTextView.append(" PM");
         }
     }
 

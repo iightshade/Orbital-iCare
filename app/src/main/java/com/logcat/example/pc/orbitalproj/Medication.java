@@ -1,8 +1,6 @@
 package com.logcat.example.pc.orbitalproj;
 
 
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,12 +9,20 @@ public class Medication extends Object implements Parcelable {
     private String medicationId;
     private String medicationTitle;
     private String medicationDescription;
+    private String medicationHour;
+    private String medicationMinute;
 
 
-    public Medication(String medicationId, String medicationTitle, String medicationDescription) {
+    public Medication(String medicationId,
+                      String medicationTitle,
+                      String medicationDescription,
+                      String medicationHour,
+                      String medicationMinute) {
         this.medicationId = medicationId;
         this.medicationTitle = medicationTitle;
         this.medicationDescription = medicationDescription;
+        this.medicationHour = medicationHour;
+        this.medicationMinute = medicationMinute;
     }
 
     public Medication() {
@@ -28,6 +34,8 @@ public class Medication extends Object implements Parcelable {
         medicationId = in.readString();
         medicationTitle = in.readString();
         medicationDescription = in.readString();
+        medicationHour = in.readString();
+        medicationMinute = in.readString();
     }
 
 
@@ -55,11 +63,29 @@ public class Medication extends Object implements Parcelable {
         this.medicationDescription = medicationDescription;
     }
 
+    public String getMedicationHour() {
+        return medicationHour;
+    }
+
+    public void setMedicationHour(String medicationHour) {
+        this.medicationHour = medicationHour;
+    }
+
+    public String getMedicationMinute() {
+        return medicationMinute;
+    }
+
+    public void setMedicationMinute(String medicationMinute) {
+        this.medicationMinute = medicationMinute;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(medicationId);
         dest.writeString(medicationTitle);
         dest.writeString(medicationDescription);
+        dest.writeString(medicationHour);
+        dest.writeString(medicationMinute);
     }
 
     @Override
