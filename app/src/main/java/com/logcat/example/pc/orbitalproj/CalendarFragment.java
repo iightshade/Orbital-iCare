@@ -1,10 +1,5 @@
 package com.logcat.example.pc.orbitalproj;
 
-/**
- * Created by PC on 6/2/2017.
- */
-
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -48,13 +43,54 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
 
-        // Populate the week view with the events that was added by tapping on empty view.
-        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
-        ArrayList<WeekViewEvent> newEvents = getNewEvents(newYear, newMonth);
-        events.addAll(newEvents);
-        return events;
+        //for loop firebase medication. Run through each medication date
 
+            //for loop if repetition
+
+        for (WeekViewEvent event : mNewEvents) {
+            if (event.getEndTime().getTimeInMillis() > startOfMonth.getTimeInMillis() &&
+                    event.getStartTime().getTimeInMillis() < endOfMonth.getTimeInMillis()) {
+                events.add(event);
+            }
+        }
+
+        // Get the starting point and ending point of the specific medicine.
+        Calendar startOfEvent = Calendar.getInstance();
+        startOfEvent.set(Calendar.YEAR, startYearEvent);  //year== startyear
+        startOfEvent.set(Calendar.MONTH, startMonthEvent - 1); //month == startmonth
+        startOfEvent.set(Calendar.DATE, 1);
+        startOfEvent.set(Calendar.HOUR_OF_DAY, 0);
+        startOfEvent.set(Calendar.MINUTE, 0);
+        startOfEvent.set(Calendar.SECOND, 0);
+        startOfEvent.set(Calendar.MILLISECOND, 0);
+        Calendar endOfEvent = (Calendar) startOfEvent.clone();
+        endOfEvent.set(Calendar.YEAR,endYearEvent); //end Year== end of event
+        endOfEvent.set(Calendar.MONTH, endMonthEvent); //endMonth== end of event
+        endOfEvent.set(Calendar.DATE,endDateEvent);
+        endOfEvent.set(Calendar.HOUR_OF_DAY, 23);
+        endOfEvent.set(Calendar.MINUTE, 59);
+        endOfEvent.set(Calendar.SECOND, 59);
+
+
+
+        // Populate the week view with events.
+        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+
+        Calendar startTime = Calendar.getInstance();
+        startTime.set(Calendar.DATE,16);
+        startTime.set(Calendar.HOUR_OF_DAY, 3);
+        startTime.set(Calendar.MINUTE, 0);
+        startTime.set(Calendar.MONTH, newMonth-1);
+        startTime.set(Calendar.YEAR, newYear);
+        Calendar endTime = (Calendar) startTime.clone();
+        endTime.add(Calendar.MINUTE, 30);
+        endTime.set(Calendar.MONTH, newMonth-1);
+        WeekViewEvent event = new WeekViewEvent(3, "hihi", startTime, endTime);
+        events.add(event);
+
+        return events;
     }
+
 
     @Override
     public void onEmptyViewClicked(Calendar time) {
@@ -63,7 +99,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         endTime.add(Calendar.HOUR, 1);
 
         // Create a new event.
-        WeekViewEvent event = new WeekViewEvent(20, "New event", time, endTime);
+        WeekViewEvent event = new WeekViewEvent(1, "New event", time, endTime);
         mNewEvents.add(event);
 
         // Refresh the week view. onMonthChange will be called again.
