@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <CheckBox
+        android:id="@+id/mondayCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layoutDirection="rtl"
+        android:padding="10dp"
+        android:text="Monday"
+        android:textSize="20sp" />
+
+    <CheckBox
+        android:id="@+id/tuesdayCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginStart="20dp"
+        android:text="Tuesday" />
+
+    <CheckBox
+        android:id="@+id/wednesdayCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginStart="20dp"
+        android:text="Wednesday" />
+
+    <CheckBox
+        android:id="@+id/thursdayCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginStart="20dp"
+        android:text="Thursday" />
+
+    <CheckBox
+        android:id="@+id/fridayCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginStart="20dp"
+        android:text="Friday" />
+
+    <CheckBox
+        android:id="@+id/saturdayCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginStart="20dp"
+        android:text="Saturday" />
+
+    <CheckBox
+        android:id="@+id/sundayCheckBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:layout_marginStart="20dp"
+        android:text="Sunday" />
+
+
+</LinearLayout>
