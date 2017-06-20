@@ -105,7 +105,7 @@ public class MedicationFragment extends Fragment {
 
                 } else {
 
-                    Intent intent = new Intent(getActivity(), MedicationDialog.class);
+                    Intent intent = new Intent(getActivity(), MedicationViewer.class);
                     medicationId = tempList.get(position);
                     intent.putExtra("Medicine", medicationId);
                     startActivity(intent);

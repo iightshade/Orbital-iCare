@@ -1,25 +1,22 @@
 package com.logcat.example.pc.orbitalproj;
 
 
-import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +27,6 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,21 +35,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
-
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 public class MedicationEdit extends AppCompatActivity {
 
@@ -78,6 +66,9 @@ public class MedicationEdit extends AppCompatActivity {
     String medicationMinute;
     int currentHour;
     int currentMinute;
+    TextView datesTextView;
+    boolean[] daysChecked;
+    ArrayList<Boolean> medicationDays;
     Button saveButton;
     Button cancelButton;
 
@@ -105,7 +96,8 @@ public class MedicationEdit extends AppCompatActivity {
         medicationTitleTextView = (EditText) findViewById(R.id.medicationTitleTextView);
         medicationDescriptionTextView = (EditText) findViewById(R.id.medicationDescriptionTextView);
         medicationImage = (ImageView) findViewById(R.id.medicationImage);
-        timeTextView = (TextView)findViewById(R.id.timeTextView);
+        timeTextView = (TextView) findViewById(R.id.timeTextView);
+        datesTextView = (TextView) findViewById(R.id.datesTextView);
         saveButton = (Button) findViewById(R.id.saveButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
 
@@ -115,6 +107,7 @@ public class MedicationEdit extends AppCompatActivity {
         medicationInEdit = intent.getParcelableExtra("Medicine");
 
         if (medicationInEdit != null) {
+            //if medication already exists, populate the view with the items.
 
             medicationTitleTextView.setText(medicationInEdit.getMedicationTitle());
             medicationDescriptionTextView.setText(medicationInEdit.getMedicationDescription());
@@ -122,11 +115,9 @@ public class MedicationEdit extends AppCompatActivity {
 
             StorageReference importReference = storageReference.child(medicationId + ".jpg");
 
-            importReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-            {
+            importReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
-                public void onSuccess(Uri downloadUrl)
-                {
+                public void onSuccess(Uri downloadUrl) {
                     Glide.with(MedicationEdit.this)
                             .load(downloadUrl)
                             .dontAnimate()
@@ -140,10 +131,23 @@ public class MedicationEdit extends AppCompatActivity {
             currentMinute = Integer.parseInt(medicationMinute);
             setTimeTextView(currentHour, currentMinute);
 
+            medicationDays = new ArrayList<Boolean>();
+            medicationDays = medicationInEdit.getMedicationDays();
+            daysChecked = new boolean[medicationDays.size()];
+            for(int i = 0; i < medicationDays.size(); i++)
+            {
+                daysChecked[i] = medicationDays.get(i);
+            }
+            setDates(daysChecked);
+
+
         } else {
+            //if a new medication is being added
             medicationId = userReference.push().getKey();
             currentHour = 0;
             currentMinute = 0;
+            daysChecked = new boolean[]{false, false, false, false, false, false, false};
+            setDates(daysChecked);
         }
 
         medicationImage.setOnClickListener(new View.OnClickListener() {
@@ -176,6 +180,54 @@ public class MedicationEdit extends AppCompatActivity {
             }
         });
 
+        //temp placement for boolean position
+        //first position represents monday, last position represents sunday
+
+        datesTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final String[] daysOfWeek = getResources().getStringArray(R.array.daysinweek);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MedicationEdit.this);
+                builder.setCancelable(false);
+                builder.setTitle("Choose Days");
+                builder.setMultiChoiceItems(daysOfWeek, daysChecked, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int position, boolean isChecked) {
+                        if(isChecked){
+                            daysChecked[position] = true;
+                        }
+                        if(!isChecked){
+                            daysChecked[position] = false;
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int position) {
+
+                        //Convert array of boolean into arraylist for the days which are selected
+                        medicationDays = new ArrayList<Boolean>();
+                        for(int index =0; index < daysChecked.length; index++) {
+                            medicationDays.add(daysChecked[index]);
+                        }
+
+                        setDates(daysChecked);
+
+                    }
+                });
+                builder.show();
+            }
+        });
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +238,9 @@ public class MedicationEdit extends AppCompatActivity {
                         medicationTitleTextView.getText().toString(),
                         medicationDescriptionTextView.getText().toString(),
                         medicationHour,
-                        medicationMinute);
+                        medicationMinute,
+                        medicationDays);
+
 
                 userReference.child(medicationId).setValue(medicationInEdit);
 
@@ -235,8 +289,8 @@ public class MedicationEdit extends AppCompatActivity {
                 finish();
             }
         });
-
     }
+
 
     private void showFileChooser() {
         Intent intent = new Intent();
@@ -275,42 +329,63 @@ public class MedicationEdit extends AppCompatActivity {
         }
     }
 
-    private void setTimeTextView(int numHour, int numMinute){
+    private void setTimeTextView(int numHour, int numMinute) {
 
         Boolean isMorning = true;
         String hourString;
         String minuteString;
 
-        if(numHour >= 12) {
+        if (numHour >= 12) {
             isMorning = false;
         }
 
-        if(numHour > 12){
+        if (numHour > 12) {
             numHour = (numHour - 12);
         }
 
-        if(numHour < 10){
+        if (numHour < 10) {
             hourString = "0" + Integer.toString(numHour);
-        }else{
+        } else {
             hourString = Integer.toString(numHour);
         }
 
-        if(numMinute < 10){
+        if (numMinute < 10) {
             minuteString = "0" + Integer.toString(numMinute);
-        }else{
+        } else {
             minuteString = Integer.toString(numMinute);
         }
 
         timeTextView.setText(hourString + ":" + minuteString);
 
-        if(isMorning == true){
+        if (isMorning == true) {
             timeTextView.append(" AM");
-        }else{
+        } else {
             timeTextView.append(" PM");
         }
     }
 
+    private void setDates(boolean[] dates){
+        datesTextView.setText("");
+        for(int i =0; i<7; i++){
+            if(dates[i] == true){
+                switch (i){
+                    case 0:datesTextView.append("Mon ");    continue;
+                    case 1:datesTextView.append("Tues ");   continue;
+                    case 2:datesTextView.append("Wed ");    continue;
+                    case 3:datesTextView.append("Thurs ");  continue;
+                    case 4:datesTextView.append("Fri ");    continue;
+                    case 5:datesTextView.append("Sat ");    continue;
+                    case 6:datesTextView.append("Sun ");    continue;
+                }
+            }
+        }
+        if(datesTextView.getText().toString().equals("")){
+            datesTextView.setText("Enter dates here.");
+        }
+    }
+
 }
+
 
 /* FOR REFERENCE
     private void getUrl(StorageReference storageReference){

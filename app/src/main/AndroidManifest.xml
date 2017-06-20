@@ -23,7 +23,7 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".MedicationDialog"/>
+        <activity android:name=".MedicationViewer"/>
         <activity android:name=".MedicationEdit"/>
     </application>
 
