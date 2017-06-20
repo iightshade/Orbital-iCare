@@ -60,6 +60,8 @@ public class MedicationEdit extends AppCompatActivity {
     EditText medicationTitleTextView;
     EditText medicationDescriptionTextView;
     Medication medicationInEdit;
+    String medicationTitle;
+    String medicationDescription;
     ImageView medicationImage;
     TextView timeTextView;
     String medicationHour;
@@ -108,9 +110,13 @@ public class MedicationEdit extends AppCompatActivity {
 
         if (medicationInEdit != null) {
             //if medication already exists, populate the view with the items.
-
             medicationTitleTextView.setText(medicationInEdit.getMedicationTitle());
-            medicationDescriptionTextView.setText(medicationInEdit.getMedicationDescription());
+            if(medicationInEdit.getMedicationDescription() == null){
+                medicationDescriptionTextView.setText("");
+            }else{
+                medicationDescriptionTextView.setText(medicationInEdit.getMedicationDescription());
+            }
+            medicationTitleTextView.setText(medicationInEdit.getMedicationTitle());
             medicationId = medicationInEdit.getMedicationId();
 
             StorageReference importReference = storageReference.child(medicationId + ".jpg");
@@ -140,14 +146,21 @@ public class MedicationEdit extends AppCompatActivity {
             }
             setDates(daysChecked);
 
-
         } else {
             //if a new medication is being added
             medicationId = userReference.push().getKey();
+            medicationTitleTextView.setText("");
+            medicationDescriptionTextView.setText("");
             currentHour = 0;
             currentMinute = 0;
+            medicationHour = "0";
+            medicationMinute = "0";
             daysChecked = new boolean[]{false, false, false, false, false, false, false};
             setDates(daysChecked);
+            medicationDays = new ArrayList<Boolean>();
+            for(int index =0; index < daysChecked.length; index++) {
+                medicationDays.add(daysChecked[index]);
+            }
         }
 
         medicationImage.setOnClickListener(new View.OnClickListener() {
@@ -232,11 +245,24 @@ public class MedicationEdit extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(medicationTitleTextView.getText().toString().isEmpty()){
+                    Toast.makeText(MedicationEdit.this, "Enter a medication title", Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    medicationTitle = medicationTitleTextView.getText().toString();
+                }
+
+                medicationDescription = medicationDescriptionTextView.getText().toString();
+
+                if(datesTextView.getText().toString().equals("Enter dates here.")){
+                    Toast.makeText(MedicationEdit.this, "Select days for medicine consumption", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 medicationInEdit = new Medication(
                         medicationId,
-                        medicationTitleTextView.getText().toString(),
-                        medicationDescriptionTextView.getText().toString(),
+                        medicationTitle,
+                        medicationDescription,
                         medicationHour,
                         medicationMinute,
                         medicationDays);
