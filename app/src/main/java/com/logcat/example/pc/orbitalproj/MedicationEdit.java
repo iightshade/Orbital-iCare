@@ -144,7 +144,7 @@ public class MedicationEdit extends AppCompatActivity {
             {
                 daysChecked[i] = medicationDays.get(i);
             }
-            setDates(daysChecked);
+            setDatesTextView(daysChecked);
 
         } else {
             //if a new medication is being added
@@ -156,7 +156,7 @@ public class MedicationEdit extends AppCompatActivity {
             medicationHour = "0";
             medicationMinute = "0";
             daysChecked = new boolean[]{false, false, false, false, false, false, false};
-            setDates(daysChecked);
+            setDatesTextView(daysChecked);
             medicationDays = new ArrayList<Boolean>();
             for(int index =0; index < daysChecked.length; index++) {
                 medicationDays.add(daysChecked[index]);
@@ -233,7 +233,7 @@ public class MedicationEdit extends AppCompatActivity {
                             medicationDays.add(daysChecked[index]);
                         }
 
-                        setDates(daysChecked);
+                        setDatesTextView(daysChecked);
 
                     }
                 });
@@ -390,7 +390,7 @@ public class MedicationEdit extends AppCompatActivity {
         }
     }
 
-    private void setDates(boolean[] dates){
+    private void setDatesTextView(boolean[] dates){
         datesTextView.setText("");
         for(int i =0; i<7; i++){
             if(dates[i] == true){
@@ -411,21 +411,3 @@ public class MedicationEdit extends AppCompatActivity {
     }
 
 }
-
-
-/* FOR REFERENCE
-    private void getUrl(StorageReference storageReference){
-
-        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-        {
-            @Override
-            public void onSuccess(Uri downloadUrl)
-            {
-                Log.i("downlaod123 url is ", downloadUrl.toString());
-                imageUrlString = downloadUrl.toString();
-                Log.i("image url is", imageUrlString);
-            }
-        });
-
-    }
-*/

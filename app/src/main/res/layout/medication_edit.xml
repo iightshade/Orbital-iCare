@@ -14,12 +14,13 @@
     <RelativeLayout
 
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="Medication name:"
@@ -48,7 +49,7 @@
         android:layout_below="@+id/medicationTitleTextView"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         android:text="Medication description:"
         android:textSize="25sp" />
 
@@ -102,6 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_below="@id/datesTextView"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
