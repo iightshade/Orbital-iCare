@@ -2,6 +2,7 @@ package com.logcat.example.pc.orbitalproj;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,8 +60,8 @@ public class MedicationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_medication,container, false);
-        medicationGridView = (GridView)view.findViewById(R.id.medicationGridView);
+        view = inflater.inflate(R.layout.fragment_medication, container, false);
+        medicationGridView = (GridView) view.findViewById(R.id.medicationGridView);
 
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -68,7 +70,7 @@ public class MedicationFragment extends Fragment {
                 tempList = new ArrayList<Medication>();
                 tempList.clear();
 
-                for(DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
+                for (DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
 
                     temp = categoriesSnapShot.getValue(Medication.class);
                     tempList.add(temp);
@@ -90,7 +92,8 @@ public class MedicationFragment extends Fragment {
         });
 
         return view;
-    }
+
+    };
 
     @Override
     public void onStart() {
