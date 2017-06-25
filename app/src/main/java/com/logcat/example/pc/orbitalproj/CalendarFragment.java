@@ -151,7 +151,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         mNewEvents.add(event);*/
 
         // Refresh the week view. onMonthChange will be called again.
-        mWeekView.notifyDatasetChanged();
+        //mWeekView.notifyDatasetChanged();
     }
 
 
