@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:theme="@style/AppTheme2">
 
 <ScrollView
     android:layout_width="match_parent"
@@ -65,13 +66,13 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp" />
 
-    <ImageView
-        android:id="@+id/medicationImage"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/medicationDescriptionTextView"
-        app:srcCompat="@mipmap/ic_launcher" />
+        <ImageView
+            android:id="@+id/medicationImage"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_below="@+id/medicationDescriptionTextView"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/no_image" />
 
 
         <TextView

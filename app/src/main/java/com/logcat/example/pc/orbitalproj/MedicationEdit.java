@@ -1,10 +1,11 @@
 package com.logcat.example.pc.orbitalproj;
 
-
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -201,7 +203,7 @@ public class MedicationEdit extends AppCompatActivity {
             public void onClick(View v) {
 
                 final String[] daysOfWeek = getResources().getStringArray(R.array.daysinweek);
-                AlertDialog.Builder builder = new AlertDialog.Builder(MedicationEdit.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MedicationEdit.this, R.style.AppTheme2));
                 builder.setCancelable(false);
                 builder.setTitle("Choose Days");
                 builder.setMultiChoiceItems(daysOfWeek, daysChecked, new DialogInterface.OnMultiChoiceClickListener() {
@@ -237,7 +239,7 @@ public class MedicationEdit extends AppCompatActivity {
 
                     }
                 });
-                builder.show();
+                Dialog dialog = builder.show();
             }
         });
 

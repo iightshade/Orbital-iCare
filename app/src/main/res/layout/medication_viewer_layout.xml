@@ -35,7 +35,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
-                android:text="SOMETEXT"
+                android:text="Medication name"
                 android:textSize="20sp" />
 
 
@@ -61,7 +61,7 @@
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="SOMETEXT"
+                android:text="Medication description"
                 android:textSize="20sp" />
 
             <ImageView
@@ -70,7 +70,7 @@
                 android:layout_height="200dp"
                 android:layout_below="@+id/medicationDescriptionText"
                 android:layout_centerHorizontal="true"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@drawable/no_image" />
 
 
             <TextView
@@ -79,7 +79,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/medicationImage"
-                android:onClick="setTime"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="8dp"

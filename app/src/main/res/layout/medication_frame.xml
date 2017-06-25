@@ -8,12 +8,12 @@
         android:id="@+id/medicationImage"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@mipmap/ic_launcher" />
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/no_image" />
 
     <TextView
         android:id="@+id/medicationMainTitle"
