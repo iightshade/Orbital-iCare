@@ -1,7 +1,6 @@
 package com.logcat.example.pc.orbitalproj;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,11 +36,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
     String userId;
 
-    int year;
-    int month;
-    int day=25;
-    int hour=1;
-    int minute;
+    int count=0;
 
 
     @Override
@@ -65,8 +60,6 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         // Set up empty view click listener.
         mWeekView.setEmptyViewClickListener(this);
 
-        mWeekView.notifyDatasetChanged();
-
         //return view
         return mView;
     }
@@ -77,14 +70,13 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
         List<WeekViewEvent> matchedEvents = new ArrayList<WeekViewEvent>();
 
-
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-
+                            count++;
 
                             Medication temp = snapshot.getValue(Medication.class);
 
@@ -102,11 +94,11 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                                     startTime.set(Calendar.DAY_OF_WEEK, tempUse );
                                     startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(temp.getMedicationHour()));
                                     startTime.set(Calendar.MINUTE, Integer.parseInt(temp.getMedicationMinute()));
-                                    startTime.set(Calendar.MONTH, 6 - 1);
-                                    startTime.set(Calendar.YEAR, 2017);
+                                    startTime.set(Calendar.MONTH, newMonth - 1);
+                                    startTime.set(Calendar.YEAR, newYear);
                                     Calendar endTime = (Calendar) startTime.clone();
-                                    endTime.add(Calendar.HOUR, 1);
-                                    endTime.set(Calendar.MONTH, 6 - 1);
+                                    endTime.add(Calendar.MINUTE, 30 );
+                                    endTime.set(Calendar.MONTH, newMonth - 1);
                                     WeekViewEvent mEvent = new WeekViewEvent(1, temp.getMedicationTitle(), startTime, endTime);
 
                                     loopEvents.add(mEvent);
@@ -117,11 +109,17 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
                                 }
                             }
-
                                 }
                             }
+
+                        }
+
+                        if (count==dataSnapshot.getChildrenCount()){
+                            mWeekView.notifyDatasetChanged();
                         }
                     }
+
+
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
