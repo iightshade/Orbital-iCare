@@ -99,6 +99,10 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                                     Calendar endTime = (Calendar) startTime.clone();
                                     endTime.add(Calendar.MINUTE, 30 );
                                     endTime.set(Calendar.MONTH, newMonth - 1);
+
+
+
+
                                     WeekViewEvent mEvent = new WeekViewEvent(1, temp.getMedicationTitle(), startTime, endTime);
 
                                     loopEvents.add(mEvent);
@@ -106,12 +110,10 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                                         if (eventMatches(pEvent, newYear, newMonth)) {
                                             events.add(pEvent);
 
-
                                 }
                             }
                                 }
                             }
-
                         }
 
                         if (count==dataSnapshot.getChildrenCount()){
@@ -120,11 +122,9 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                     }
 
 
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                     }
-
                 });
 
 
@@ -154,8 +154,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         //mWeekView.notifyDatasetChanged();
     }
 
-
-
+    
     private boolean eventMatches(WeekViewEvent event, int year, int month) {
         return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month- 1) || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
     }
