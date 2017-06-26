@@ -113,9 +113,9 @@ public class MedicationEdit extends AppCompatActivity {
         if (medicationInEdit != null) {
             //if medication already exists, populate the view with the items.
             medicationTitleTextView.setText(medicationInEdit.getMedicationTitle());
-            if(medicationInEdit.getMedicationDescription() == null){
+            if (medicationInEdit.getMedicationDescription() == null) {
                 medicationDescriptionTextView.setText("");
-            }else{
+            } else {
                 medicationDescriptionTextView.setText(medicationInEdit.getMedicationDescription());
             }
             medicationTitleTextView.setText(medicationInEdit.getMedicationTitle());
@@ -142,8 +142,7 @@ public class MedicationEdit extends AppCompatActivity {
             medicationDays = new ArrayList<Boolean>();
             medicationDays = medicationInEdit.getMedicationDays();
             daysChecked = new boolean[medicationDays.size()];
-            for(int i = 0; i < medicationDays.size(); i++)
-            {
+            for (int i = 0; i < medicationDays.size(); i++) {
                 daysChecked[i] = medicationDays.get(i);
             }
             setDatesTextView(daysChecked);
@@ -160,7 +159,7 @@ public class MedicationEdit extends AppCompatActivity {
             daysChecked = new boolean[]{false, false, false, false, false, false, false};
             setDatesTextView(daysChecked);
             medicationDays = new ArrayList<Boolean>();
-            for(int index =0; index < daysChecked.length; index++) {
+            for (int index = 0; index < daysChecked.length; index++) {
                 medicationDays.add(daysChecked[index]);
             }
         }
@@ -175,22 +174,23 @@ public class MedicationEdit extends AppCompatActivity {
         timeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final TimePickerDialog timePickerDialog = new TimePickerDialog(MedicationEdit.this,
-                        new TimePickerDialog.OnTimeSetListener() {
+                final TimePickerDialog timePickerDialog =
+                        new TimePickerDialog(new ContextThemeWrapper(MedicationEdit.this, R.style.AppTheme2),
+                                new TimePickerDialog.OnTimeSetListener() {
 
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minute) {
-                                medicationHour = Integer.toString(hourOfDay);
-                                medicationMinute = Integer.toString(minute);
+                                    @Override
+                                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                                          int minute) {
+                                        medicationHour = Integer.toString(hourOfDay);
+                                        medicationMinute = Integer.toString(minute);
 
-                                currentHour = hourOfDay;
-                                currentMinute = minute;
+                                        currentHour = hourOfDay;
+                                        currentMinute = minute;
 
-                                setTimeTextView(hourOfDay, minute);
+                                        setTimeTextView(hourOfDay, minute);
 
-                            }
-                        }, currentHour, currentMinute, false);
+                                    }
+                                }, currentHour, currentMinute, false);
                 timePickerDialog.show();
             }
         });
@@ -209,10 +209,10 @@ public class MedicationEdit extends AppCompatActivity {
                 builder.setMultiChoiceItems(daysOfWeek, daysChecked, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int position, boolean isChecked) {
-                        if(isChecked){
+                        if (isChecked) {
                             daysChecked[position] = true;
                         }
-                        if(!isChecked){
+                        if (!isChecked) {
                             daysChecked[position] = false;
                         }
                     }
@@ -231,7 +231,7 @@ public class MedicationEdit extends AppCompatActivity {
 
                         //Convert array of boolean into arraylist for the days which are selected
                         medicationDays = new ArrayList<Boolean>();
-                        for(int index =0; index < daysChecked.length; index++) {
+                        for (int index = 0; index < daysChecked.length; index++) {
                             medicationDays.add(daysChecked[index]);
                         }
 
@@ -247,16 +247,16 @@ public class MedicationEdit extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(medicationTitleTextView.getText().toString().isEmpty()){
+                if (medicationTitleTextView.getText().toString().isEmpty()) {
                     Toast.makeText(MedicationEdit.this, "Enter a medication title", Toast.LENGTH_SHORT).show();
                     return;
-                }else {
+                } else {
                     medicationTitle = medicationTitleTextView.getText().toString();
                 }
 
                 medicationDescription = medicationDescriptionTextView.getText().toString();
 
-                if(datesTextView.getText().toString().equals("Enter dates here.")){
+                if (datesTextView.getText().toString().equals("Enter dates here.")) {
                     Toast.makeText(MedicationEdit.this, "Select days for medicine consumption", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -392,22 +392,36 @@ public class MedicationEdit extends AppCompatActivity {
         }
     }
 
-    private void setDatesTextView(boolean[] dates){
+    private void setDatesTextView(boolean[] dates) {
         datesTextView.setText("");
-        for(int i =0; i<7; i++){
-            if(dates[i] == true){
-                switch (i){
-                    case 0:datesTextView.append("Mon ");    continue;
-                    case 1:datesTextView.append("Tues ");   continue;
-                    case 2:datesTextView.append("Wed ");    continue;
-                    case 3:datesTextView.append("Thurs ");  continue;
-                    case 4:datesTextView.append("Fri ");    continue;
-                    case 5:datesTextView.append("Sat ");    continue;
-                    case 6:datesTextView.append("Sun ");    continue;
+        for (int i = 0; i < 7; i++) {
+            if (dates[i] == true) {
+                switch (i) {
+                    case 0:
+                        datesTextView.append("Mon ");
+                        continue;
+                    case 1:
+                        datesTextView.append("Tues ");
+                        continue;
+                    case 2:
+                        datesTextView.append("Wed ");
+                        continue;
+                    case 3:
+                        datesTextView.append("Thurs ");
+                        continue;
+                    case 4:
+                        datesTextView.append("Fri ");
+                        continue;
+                    case 5:
+                        datesTextView.append("Sat ");
+                        continue;
+                    case 6:
+                        datesTextView.append("Sun ");
+                        continue;
                 }
             }
         }
-        if(datesTextView.getText().toString().equals("")){
+        if (datesTextView.getText().toString().equals("")) {
             datesTextView.setText("Enter dates here.");
         }
     }
