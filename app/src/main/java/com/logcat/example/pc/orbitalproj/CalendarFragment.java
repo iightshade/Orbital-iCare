@@ -1,5 +1,7 @@
 package com.logcat.example.pc.orbitalproj;
 
+import android.content.Intent;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,7 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class CalendarFragment extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EmptyViewClickListener {
+public class CalendarFragment extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EmptyViewClickListener, WeekView.EventClickListener {
 
     private WeekView mWeekView;
     private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
@@ -60,9 +62,12 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         // Set up empty view click listener.
         mWeekView.setEmptyViewClickListener(this);
 
+        mWeekView.setOnEventClickListener(this);
+
         //return view
         return mView;
     }
+
 
 
     @Override
@@ -142,6 +147,10 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
     @Override
     public void onEmptyViewClicked(Calendar time) {
 
+        Intent intent = new Intent(getActivity(), MedicationEdit.class);
+        startActivity(intent);
+
+
         /*// Set the new event with duration one hour.
         Calendar endTime = (Calendar) time.clone();
         endTime.add(Calendar.HOUR, 1);
@@ -154,10 +163,16 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         //mWeekView.notifyDatasetChanged();
     }
 
-    
+
+
+
     private boolean eventMatches(WeekViewEvent event, int year, int month) {
         return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month- 1) || (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
     }
 
 
+    @Override
+    public void onEventClick(WeekViewEvent event, RectF eventRect) {
+
+    }
 }

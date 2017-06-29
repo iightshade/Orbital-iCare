@@ -101,7 +101,7 @@ public class MedicationViewer extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 intent = new Intent(MedicationViewer.this , MainActivity.class);
-                startActivity(intent);
+                startActivity(intent);   // use finish() only if you want to use it as a back function
                 finish();
             }
         });
