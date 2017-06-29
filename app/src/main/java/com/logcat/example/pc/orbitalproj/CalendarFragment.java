@@ -29,6 +29,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
     private WeekView mWeekView;
     private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+    List<WeekViewEvent> newEvents= new ArrayList<WeekViewEvent>();
     private ArrayList<Boolean> medicationDays;
 
     FirebaseAuth userAuth;
@@ -72,6 +73,8 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
     @Override
     public List<WeekViewEvent> onMonthChange(final int newYear, final int newMonth) {
+
+
 
         List<WeekViewEvent> matchedEvents = new ArrayList<WeekViewEvent>();
 
@@ -117,12 +120,61 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
                                 }
                             }
+
+
+
+
                                 }
                             }
-                        }
 
-                        if (count==dataSnapshot.getChildrenCount()){
-                            mWeekView.notifyDatasetChanged();
+
+
+                            for (WeekViewEvent event : events) {
+                                Calendar dateTime = event .getStartTime();
+                                Calendar dateEndTime = event .getEndTime();
+                                Calendar monCal = getFirstDay(newMonth - 1, newYear, dateTime.get(Calendar.DAY_OF_WEEK));
+                                int hday = dateTime.get(Calendar.HOUR_OF_DAY);
+                                int mday = dateTime.get(Calendar.MINUTE);
+                                int ehday = dateEndTime.get(Calendar.HOUR_OF_DAY);
+                                int emday = dateEndTime.get(Calendar.MINUTE);
+                                for (int k = monCal.get(Calendar.DAY_OF_MONTH); k <= monCal.getActualMaximum(Calendar.DAY_OF_MONTH); k += 7) {
+                                    Calendar startTime = Calendar.getInstance();
+                                    startTime.set(Calendar.MONTH, newMonth - 1);
+                                    startTime.set(Calendar.DAY_OF_MONTH, k);
+                                    startTime.set(Calendar.YEAR, newYear);
+                                    startTime.set(Calendar.HOUR_OF_DAY, hday);
+                                    startTime.set(Calendar.MINUTE, mday);
+                                    startTime.set(Calendar.SECOND, 0);
+                                    startTime.set(Calendar.MILLISECOND, 0);
+
+                                    Calendar endTime = (Calendar) startTime.clone();
+                                    endTime.set(Calendar.HOUR_OF_DAY, ehday);
+                                    endTime.set(Calendar.MINUTE, emday - 1);
+                                    endTime.set(Calendar.MONTH, newMonth - 1);
+                                    endTime.set(Calendar.SECOND, 59);
+                                    endTime.set(Calendar.MILLISECOND, 999);
+
+                                    WeekViewEvent newEvent = new WeekViewEvent(1, event .getName(), startTime, endTime);
+                                    newEvents.add(newEvent);
+
+                                }
+                            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            if (count==dataSnapshot.getChildrenCount()){
+                                mWeekView.notifyDatasetChanged();
+                            }
                         }
                     }
 
@@ -133,7 +185,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                 });
 
 
-        for (WeekViewEvent event : events) {
+        for (WeekViewEvent event : newEvents) {
             if (eventMatches(event, newYear, newMonth)) {
                 matchedEvents.add(event);
             }
@@ -143,6 +195,25 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         return matchedEvents;
 
     }
+
+
+
+    public static Calendar getFirstDay(int i2, int i, int weekday) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.MONTH, i2);
+        c.set(Calendar.YEAR, i);
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        int day = c.get(Calendar.DAY_OF_WEEK);
+        while (day != weekday) {
+            c.add(Calendar.DAY_OF_MONTH, 1);
+            day = c.get(Calendar.DAY_OF_WEEK);
+        }
+        return c;
+    }
+
+
+
+
 
     @Override
     public void onEmptyViewClicked(Calendar time) {
