@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.joda.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -40,6 +42,10 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
     String userId;
 
     int count=0;
+
+    LocalDate endDate=new LocalDate("2017-07-18");
+    LocalDate startDate=new LocalDate("2017-07-01");
+
 
 
     @Override
@@ -145,6 +151,15 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
             }
         }
 
+
+      //  for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1))
+     //   {
+
+      //  }
+
+
+
+
         for (WeekViewEvent event : matchedEvents) {
             Calendar dateTime = event .getStartTime();
             Calendar dateEndTime = event .getEndTime();
@@ -153,14 +168,13 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
             int mday = dateTime.get(Calendar.MINUTE);
             int ehday = dateEndTime.get(Calendar.HOUR_OF_DAY);
             int emday = dateEndTime.get(Calendar.MINUTE);
-            for (int k = monCal.get(Calendar.DAY_OF_MONTH); k <= monCal.getActualMaximum(Calendar.DAY_OF_MONTH); k += 7) {
-
+            for (LocalDate date = new LocalDate(monCal); date.isBefore(endDate); date = date.plusDays(7)) {
 
                 List<WeekViewEvent> looperEvents = new ArrayList<WeekViewEvent>();
 
                 Calendar startTime = Calendar.getInstance();
                 startTime.set(Calendar.MONTH, newMonth - 1);
-                startTime.set(Calendar.DAY_OF_MONTH, k);
+                startTime.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
                 startTime.set(Calendar.YEAR, newYear);
                 startTime.set(Calendar.HOUR_OF_DAY, hday);
                 startTime.set(Calendar.MINUTE, mday);
@@ -194,9 +208,18 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
             }
         }
 
+        List<WeekViewEvent> legitEvents = new ArrayList<WeekViewEvent>();
 
 
-        return finalEvents;
+        for (WeekViewEvent legit : finalEvents){
+            if (!new LocalDate(legit.getEndTime()).isBefore(startDate)){
+                legitEvents.add(legit);
+            }
+        }
+
+
+
+        return legitEvents;
 
     }
 
