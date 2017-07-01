@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setTheme(R.style.AppTheme2);
         setContentView(R.layout.activity_main);
 
         fragment = new MedicationFragment();

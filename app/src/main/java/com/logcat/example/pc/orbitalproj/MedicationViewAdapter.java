@@ -98,7 +98,7 @@ public class MedicationViewAdapter extends BaseAdapter {
             importReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri downloadUrl) {
-                    Glide.with(context)
+                    Glide.with(context.getApplicationContext())
                             .load(downloadUrl)
                             .dontAnimate()
                             .into(medicationImage);

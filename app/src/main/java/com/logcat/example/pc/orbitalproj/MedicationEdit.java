@@ -88,6 +88,7 @@ public class MedicationEdit extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setTheme(R.style.AppTheme2);
         setContentView(R.layout.medication_edit);
 
         userAuth = FirebaseAuth.getInstance();
