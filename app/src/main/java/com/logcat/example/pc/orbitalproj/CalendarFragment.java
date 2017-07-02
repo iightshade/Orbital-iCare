@@ -44,7 +44,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
     int count=0;
 
     LocalDate endDate=new LocalDate("2017-07-18");
-    LocalDate startDate=new LocalDate("2017-07-01");
+    LocalDate startDate=new LocalDate("2017-07-02");
 
 
 
@@ -151,15 +151,6 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
             }
         }
 
-
-      //  for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1))
-     //   {
-
-      //  }
-
-
-
-
         for (WeekViewEvent event : matchedEvents) {
             Calendar dateTime = event .getStartTime();
             Calendar dateEndTime = event .getEndTime();
@@ -168,6 +159,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
             int mday = dateTime.get(Calendar.MINUTE);
             int ehday = dateEndTime.get(Calendar.HOUR_OF_DAY);
             int emday = dateEndTime.get(Calendar.MINUTE);
+
             for (LocalDate date = new LocalDate(monCal); date.isBefore(endDate); date = date.plusDays(7)) {
 
                 List<WeekViewEvent> looperEvents = new ArrayList<WeekViewEvent>();
