@@ -24,7 +24,6 @@ public class Medication extends Object implements Parcelable {
 
     private ArrayList<Boolean> medicationDays;
 
-
     public Medication(String medicationId,
                       String medicationTitle,
                       String medicationDescription,

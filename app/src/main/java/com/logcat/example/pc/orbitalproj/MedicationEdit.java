@@ -191,12 +191,12 @@ public class MedicationEdit extends AppCompatActivity {
             for (int index = 0; index < daysChecked.length; index++) {
                 medicationDays.add(daysChecked[index]);
             }
-            startDay = calendar.get(Calendar.DAY_OF_MONTH);
-            startMonth = calendar.get(Calendar.MONTH);
-            startYear = calendar.get(Calendar.YEAR);
-            endDay = startDay;
-            endMonth = startMonth;
-            endYear = startYear;
+            startDay = currentDay;
+            startMonth = currentMonth;
+            startYear = currentYear;
+            endDay = currentDay;
+            endMonth = currentMonth;
+            endYear = currentYear;
             startDateTextView.setText(setDatesTextView(startYear, startMonth, startDay));
             endDateTextView.setText(setDatesTextView(endYear, endMonth, endDay));
 
@@ -351,12 +351,14 @@ public class MedicationEdit extends AppCompatActivity {
                 }
 
                 Integer medicationStartDate = 0, medicationEndDate = 0;
-                medicationStartDate = startYear*1000 + startMonth*100 + startDay;
-                medicationEndDate = endYear*1000 + endMonth*100 + endDay;
+                medicationStartDate = startYear*10000 + startMonth*100 + startDay;
+                medicationEndDate = endYear*10000 + endMonth*100 + endDay;
+
                 if(medicationStartDate > medicationEndDate){
                     Toast.makeText(MedicationEdit.this, "End date cannot be before start date", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 if((medicationStartDate < currentDate) || (medicationEndDate < currentDate)){
                     Toast.makeText(MedicationEdit.this, "Dates cannot be set before today", Toast.LENGTH_SHORT).show();
                     return;

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class MedicationViewAdapter extends BaseAdapter {
@@ -34,6 +36,10 @@ public class MedicationViewAdapter extends BaseAdapter {
     private static StorageReference storageReference;
     private static String userId;
 
+    private Calendar calendar = Calendar.getInstance();
+    private static Integer currentYear, currentMonth, currentDay, currentDate;
+
+
     public MedicationViewAdapter(Activity context, List<Medication> medicationArrayList) {
         this.context = context;
         this.medicationArrayList = medicationArrayList;
@@ -42,6 +48,11 @@ public class MedicationViewAdapter extends BaseAdapter {
         userAuth = FirebaseAuth.getInstance();
         userId = userAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference(userId);
+
+        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        currentMonth = calendar.get(Calendar.MONTH);
+        currentYear = calendar.get(Calendar.YEAR);
+        currentDate = currentYear * 10000 + currentMonth * 100 + currentDay;
     }
 
     public MedicationViewAdapter() {
@@ -68,7 +79,9 @@ public class MedicationViewAdapter extends BaseAdapter {
         View view;
         final ImageView medicationImage;
         final TextView medicationMainTitle;
+        final TextView expiredTextView;
         String medicationId;
+        Integer endYear, endMonth, endDay, endDate;
 
         if ((position + 1) == medicationArrayList.size()) {
 
@@ -82,13 +95,14 @@ public class MedicationViewAdapter extends BaseAdapter {
                 view = layoutInflater.inflate(R.layout.medication_frame, parent, false);
                 view.setTag(R.id.medicationImage, view.findViewById(R.id.medicationImage));
                 view.setTag(R.id.medicationMainTitle, view.findViewById(R.id.medicationMainTitle));
+                view.setTag(R.id.expiredTextView, view.findViewById(R.id.expiredTextView));
 
             } else {
                 view = convertView;
             }
-
             medicationImage = (ImageView) view.getTag(R.id.medicationImage);
             medicationMainTitle = (TextView) view.getTag(R.id.medicationMainTitle);
+            expiredTextView = (TextView) view.getTag(R.id.expiredTextView);
 
             Medication medication = (Medication) getItem(position);
             medicationId = medication.getMedicationId();
@@ -106,6 +120,17 @@ public class MedicationViewAdapter extends BaseAdapter {
             });
 
             medicationMainTitle.setText(medication.getMedicationTitle());
+
+            endDay = medication.getMedicationEndDay();
+            endMonth = medication.getMedicationEndMonth();
+            endYear = medication.getMedicationEndYear();
+            endDate = endYear * 10000 + endMonth * 100 + endDay;
+
+            if(currentDate > endDate){
+                medicationImage.setAlpha(0.2f);
+                medicationMainTitle.setAlpha(0.2f);
+                expiredTextView.setVisibility(View.VISIBLE);
+            }
 
             return view;
         }

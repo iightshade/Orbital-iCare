@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,6 +92,7 @@ public class MedicationFragment extends Fragment {
                 for (DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
 
                     temp = categoriesSnapShot.getValue(Medication.class);
+
                     tempList.add(temp);
 
                 }
@@ -221,5 +223,6 @@ public class MedicationFragment extends Fragment {
         return true;
 
     }
+
 
 }
