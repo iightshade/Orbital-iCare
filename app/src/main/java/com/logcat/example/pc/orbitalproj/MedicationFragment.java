@@ -39,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class MedicationFragment extends Fragment {
@@ -46,16 +47,15 @@ public class MedicationFragment extends Fragment {
     FirebaseAuth userAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser firebaseUser;
-
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
     StorageReference storageReference;
 
     String userId;
-
     Medication medication;
     Medication temp;
     ArrayList<Medication> tempList;
+    Calendar calendar, upcoming;
 
     GridView medicationGridView;
     View view;
@@ -72,7 +72,6 @@ public class MedicationFragment extends Fragment {
         userReference = firebaseDatabase.getReference(userId);
         storageReference = FirebaseStorage.getInstance().getReference(userId);
 
-
     }
 
     @Nullable
@@ -81,6 +80,8 @@ public class MedicationFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_medication, container, false);
         medicationGridView = (GridView) view.findViewById(R.id.medicationGridView);
+        calendar = Calendar.getInstance();
+        upcoming = Calendar.getInstance();
 
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -88,13 +89,19 @@ public class MedicationFragment extends Fragment {
 
                 tempList = new ArrayList<Medication>();
                 tempList.clear();
+                int i = 0;
 
                 for (DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
-
                     temp = categoriesSnapShot.getValue(Medication.class);
 
                     tempList.add(temp);
+                    i++;
 
+                    Calendar upcoming = upcomingMedication(temp);
+                    //Log.i("next date should be 6", String.valueOf(upcoming.get(Calendar.DAY_OF_WEEK)));
+                    //Log.i("Time is", String.valueOf(upcoming.get(Calendar.HOUR_OF_DAY)) + " " + String.valueOf(upcoming.get(Calendar.MINUTE)));
+
+                    //check for expired date, if expired then no need to do the function to find the next date.
                 }
 
                 Medication addNewMedication = null;
@@ -114,8 +121,6 @@ public class MedicationFragment extends Fragment {
         return view;
 
     }
-
-    ;
 
     @Override
     public void onStart() {
@@ -224,5 +229,68 @@ public class MedicationFragment extends Fragment {
 
     }
 
+    private Calendar upcomingMedication(Medication medication){
+        //returns a 'Calendar' that contains the medication's most upcoming date and time of consumption
+
+        ArrayList<Boolean> daysChecked;
+        Calendar calendar;
+
+        Integer medicationHour = 0;
+        Integer medicationMinute = 0;
+        calendar = Calendar.getInstance();
+        int today = calendar.get(Calendar.DAY_OF_WEEK);
+
+        daysChecked = medication.getMedicationDays();
+
+        //convert to database version
+        today = today - 2;
+        if(today < 0){
+            today = 6;
+        }
+
+        for(int counter = 0; counter < 7; counter++){
+            if(daysChecked.get(today) == true){
+                medicationHour = Integer.valueOf(medication.getMedicationHour());
+                medicationMinute = Integer.valueOf(medication.getMedicationMinute());
+                break;
+            }else{
+                //go to the next day. check if next date is out of bounds
+                today++;
+                if(today > 6){
+                    today = 0;
+                }
+            }
+        }
+        //convert back to android version
+        today = today  + 2;
+        if(today > 7){
+            today = 1;
+        }
+
+        calendar.set(Calendar.DAY_OF_WEEK, today);
+        calendar.set(Calendar.HOUR_OF_DAY, medicationHour);
+        calendar.set(Calendar.MINUTE, medicationMinute);
+        calendar.set(Calendar.SECOND, 0);
+
+        return calendar;
+    }
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
