@@ -26,7 +26,9 @@ public class MedicationViewer extends AppCompatActivity{
     TextView medicationDescriptionText;
     ImageView medicationImage;
     TextView timeText;
-    TextView datesText;
+    TextView daysText;
+    TextView startDateText;
+    TextView endDateText;
     Button editButton;
     Button returnButton;
     Intent intent;
@@ -49,7 +51,9 @@ public class MedicationViewer extends AppCompatActivity{
         medicationDescriptionText = (TextView)findViewById(R.id.medicationDescriptionText);
         medicationImage = (ImageView) findViewById(R.id.medicationImage) ;
         timeText = (TextView) findViewById(R.id.timeText);
-        datesText = (TextView) findViewById((R.id.datesText)) ;
+        daysText = (TextView) findViewById(R.id.daysText);
+        startDateText = (TextView) findViewById(R.id.startDateText);
+        endDateText = (TextView) findViewById(R.id.endDateText);
 
         editButton = (Button)findViewById(R.id.editButton);
         returnButton = (Button)findViewById(R.id.returnButton);
@@ -86,7 +90,18 @@ public class MedicationViewer extends AppCompatActivity{
         {
             daysChecked[i] = medicationDays.get(i);
         }
-        setDatesText(daysChecked);
+        setDaysText(daysChecked);
+
+        Integer startYear, startMonth, startDay;
+        Integer endYear, endMonth, endDay;
+        startYear = medication.getMedicationStartYear();
+        startMonth = medication.getMedicationStartMonth();
+        startDay = medication.getMedicationStartDay();
+        endYear = medication.getMedicationEndYear();
+        endMonth = medication.getMedicationEndMonth();
+        endDay = medication.getMedicationEndDay();
+        startDateText.setText(setDatesTextView(startYear, startMonth, startDay));
+        endDateText.setText(setDatesTextView(endYear, endMonth, endDay));
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,24 +158,70 @@ public class MedicationViewer extends AppCompatActivity{
         }
     }
 
-    private void setDatesText(boolean[] dates){
-        datesText.setText("");
+    private void setDaysText(boolean[] dates){
+        daysText.setText("");
         for(int i =0; i<7; i++){
             if(dates[i] == true){
                 switch (i){
-                    case 0:datesText.append("Mon ");    continue;
-                    case 1:datesText.append("Tues ");   continue;
-                    case 2:datesText.append("Wed ");    continue;
-                    case 3:datesText.append("Thurs ");  continue;
-                    case 4:datesText.append("Fri ");    continue;
-                    case 5:datesText.append("Sat ");    continue;
-                    case 6:datesText.append("Sun ");    continue;
+                    case 0:daysText.append("Mon ");    continue;
+                    case 1:daysText.append("Tues ");   continue;
+                    case 2:daysText.append("Wed ");    continue;
+                    case 3:daysText.append("Thurs ");  continue;
+                    case 4:daysText.append("Fri ");    continue;
+                    case 5:daysText.append("Sat ");    continue;
+                    case 6:daysText.append("Sun ");    continue;
                 }
             }
         }
-        if(datesText.getText().toString().equals("")){
-            datesText.setText("Enter dates here.");
+        if(daysText.getText().toString().equals("")){
+            daysText.setText("Enter dates here.");
         }
+    }
+
+    private String setDatesTextView(int year, int month, int day){
+        String date = "";
+        date = Integer.toString(day) + " ";
+        switch (month) {
+            case 0:
+                date = date + "Jan ";
+                break;
+            case 1:
+                date = date + "Feb ";
+                break;
+            case 2:
+                date = date + "Mar ";
+                break;
+            case 3:
+                date = date + "Apr ";
+                break;
+            case 4:
+                date = date + "May ";
+                break;
+            case 5:
+                date = date + "Jun ";
+                break;
+            case 6:
+                date = date + "Jul ";
+                break;
+            case 7:
+                date = date + "Aug ";
+                break;
+            case 8:
+                date = date + "Sep ";
+                break;
+            case 9:
+                date = date + "Oct ";
+                break;
+            case 10:
+                date = date + "Nov ";
+                break;
+            case 11:
+                date = date + "Dec ";
+                break;
+        }
+        date = date + Integer.toString(year);
+
+        return date;
     }
 
 }

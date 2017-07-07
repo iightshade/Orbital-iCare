@@ -15,21 +15,40 @@ public class Medication extends Object implements Parcelable {
     private String medicationDescription;
     private String medicationHour;
     private String medicationMinute;
-    private ArrayList<Boolean> medicationDays;
+    private Integer medicationStartYear;
+    private Integer medicationStartMonth;
+    private Integer medicationStartDay;
+    private Integer medicationEndYear;
+    private Integer medicationEndMonth;
+    private Integer medicationEndDay;
 
+    private ArrayList<Boolean> medicationDays;
 
     public Medication(String medicationId,
                       String medicationTitle,
                       String medicationDescription,
                       String medicationHour,
                       String medicationMinute,
-                      ArrayList<Boolean> medicationDays ) {
+                      ArrayList<Boolean> medicationDays,
+                      Integer medicationStartYear,
+                      Integer medicationStartMonth,
+                      Integer medicationStartDay,
+                      Integer medicationEndYear,
+                      Integer medicationEndMonth,
+                      Integer medicationEndDay) {
         this.medicationId = medicationId;
         this.medicationTitle = medicationTitle;
         this.medicationDescription = medicationDescription;
         this.medicationHour = medicationHour;
         this.medicationMinute = medicationMinute;
         this.medicationDays = medicationDays;
+        this.medicationStartYear = medicationStartYear;
+        this.medicationStartMonth = medicationStartMonth;
+        this.medicationStartDay = medicationStartDay;
+        this.medicationEndYear = medicationEndYear;
+        this.medicationEndMonth = medicationEndMonth;
+        this.medicationEndDay = medicationEndDay;
+
     }
 
     public Medication() {
@@ -43,6 +62,12 @@ public class Medication extends Object implements Parcelable {
         medicationHour = in.readString();
         medicationMinute = in.readString();
         medicationDays = (ArrayList<Boolean>) in.readSerializable();
+        medicationStartYear = in.readInt();
+        medicationStartMonth = in.readInt();
+        medicationStartDay = in.readInt();
+        medicationEndYear = in.readInt();
+        medicationEndMonth = in.readInt();
+        medicationEndDay = in.readInt();
     }
 
     @Override
@@ -53,6 +78,12 @@ public class Medication extends Object implements Parcelable {
         out.writeString(medicationHour);
         out.writeString(medicationMinute);
         out.writeSerializable(medicationDays);
+        out.writeInt(medicationStartYear);
+        out.writeInt(medicationStartMonth);
+        out.writeInt(medicationStartDay);
+        out.writeInt(medicationEndYear);
+        out.writeInt(medicationEndMonth);
+        out.writeInt(medicationEndDay);
     }
 
     public String getMedicationId() {
@@ -101,6 +132,54 @@ public class Medication extends Object implements Parcelable {
 
     public void setMedicationDays(ArrayList<Boolean> medicationDays) {
         this.medicationDays = medicationDays;
+    }
+
+    public Integer getMedicationStartYear() {
+        return medicationStartYear;
+    }
+
+    public void setMedicationStartYear(Integer medicationStartYear) {
+        this.medicationStartYear = medicationStartYear;
+    }
+
+    public Integer getMedicationStartMonth() {
+        return medicationStartMonth;
+    }
+
+    public void setMedicationStartMonth(Integer medicationStartMonth) {
+        this.medicationStartMonth = medicationStartMonth;
+    }
+
+    public Integer getMedicationStartDay() {
+        return medicationStartDay;
+    }
+
+    public void setMedicationStartDay(Integer medicationStartDay) {
+        this.medicationStartDay = medicationStartDay;
+    }
+
+    public Integer getMedicationEndYear() {
+        return medicationEndYear;
+    }
+
+    public void setMedicationEndYear(Integer medicationEndYear) {
+        this.medicationEndYear = medicationEndYear;
+    }
+
+    public Integer getMedicationEndMonth() {
+        return medicationEndMonth;
+    }
+
+    public void setMedicationEndMonth(Integer medicationEndMonth) {
+        this.medicationEndMonth = medicationEndMonth;
+    }
+
+    public Integer getMedicationEndDay() {
+        return medicationEndDay;
+    }
+
+    public void setMedicationEndDay(Integer medicationEndDay) {
+        this.medicationEndDay = medicationEndDay;
     }
 
     @Override

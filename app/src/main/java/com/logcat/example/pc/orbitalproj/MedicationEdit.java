@@ -2,10 +2,10 @@ package com.logcat.example.pc.orbitalproj;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,8 +19,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +46,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MedicationEdit extends AppCompatActivity {
 
@@ -66,6 +69,8 @@ public class MedicationEdit extends AppCompatActivity {
     String medicationDescription;
     ImageView medicationImage;
     TextView timeTextView;
+    TextView startDateTextView;
+    TextView endDateTextView;
     String medicationHour;
     String medicationMinute;
     int currentHour;
@@ -73,6 +78,11 @@ public class MedicationEdit extends AppCompatActivity {
     TextView datesTextView;
     boolean[] daysChecked;
     ArrayList<Boolean> medicationDays;
+    Calendar calendar;
+    Integer startYear, startMonth, startDay;
+    Integer endYear, endMonth, endDay;
+    Integer currentYear, currentMonth, currentDay;
+    Integer currentDate;
     Button saveButton;
     Button cancelButton;
 
@@ -103,6 +113,9 @@ public class MedicationEdit extends AppCompatActivity {
         medicationImage = (ImageView) findViewById(R.id.medicationImage);
         timeTextView = (TextView) findViewById(R.id.timeTextView);
         datesTextView = (TextView) findViewById(R.id.datesTextView);
+        startDateTextView = (TextView) findViewById(R.id.startDateTextView);
+        endDateTextView = (TextView) findViewById(R.id.endDateTextView);
+
         saveButton = (Button) findViewById(R.id.saveButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
 
@@ -110,6 +123,12 @@ public class MedicationEdit extends AppCompatActivity {
 
         Intent intent = getIntent();
         medicationInEdit = intent.getParcelableExtra("Medicine");
+
+        calendar = Calendar.getInstance();
+        currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        currentMonth = calendar.get(Calendar.MONTH);
+        currentYear = calendar.get(Calendar.YEAR);
+        currentDate = currentYear*10000 + currentMonth*100 + currentDay;
 
         if (medicationInEdit != null) {
             //if medication already exists, populate the view with the items.
@@ -146,7 +165,16 @@ public class MedicationEdit extends AppCompatActivity {
             for (int i = 0; i < medicationDays.size(); i++) {
                 daysChecked[i] = medicationDays.get(i);
             }
-            setDatesTextView(daysChecked);
+            setDaysTextView(daysChecked);
+            startYear = medicationInEdit.getMedicationStartYear();
+            startMonth = medicationInEdit.getMedicationStartMonth();
+            startDay = medicationInEdit.getMedicationStartDay();
+            endYear = medicationInEdit.getMedicationEndYear();
+            endMonth = medicationInEdit.getMedicationEndMonth();
+            endDay = medicationInEdit.getMedicationEndDay();
+            startDateTextView.setText(setDatesTextView(startYear, startMonth, startDay));
+            endDateTextView.setText(setDatesTextView(endYear, endMonth, endDay));
+
 
         } else {
             //if a new medication is being added
@@ -158,11 +186,20 @@ public class MedicationEdit extends AppCompatActivity {
             medicationHour = "0";
             medicationMinute = "0";
             daysChecked = new boolean[]{false, false, false, false, false, false, false};
-            setDatesTextView(daysChecked);
+            setDaysTextView(daysChecked);
             medicationDays = new ArrayList<Boolean>();
             for (int index = 0; index < daysChecked.length; index++) {
                 medicationDays.add(daysChecked[index]);
             }
+            startDay = currentDay;
+            startMonth = currentMonth;
+            startYear = currentYear;
+            endDay = currentDay;
+            endMonth = currentMonth;
+            endYear = currentYear;
+            startDateTextView.setText(setDatesTextView(startYear, startMonth, startDay));
+            endDateTextView.setText(setDatesTextView(endYear, endMonth, endDay));
+
         }
 
         medicationImage.setOnClickListener(new View.OnClickListener() {
@@ -236,13 +273,64 @@ public class MedicationEdit extends AppCompatActivity {
                             medicationDays.add(daysChecked[index]);
                         }
 
-                        setDatesTextView(daysChecked);
+                        setDaysTextView(daysChecked);
 
                     }
                 });
                 Dialog dialog = builder.show();
             }
         });
+
+        startDateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //API problems occured with normal methods.
+                //Don't really like using this calendar
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MedicationEdit.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                startDateTextView.setText(setDatesTextView(year, monthOfYear, dayOfMonth));
+                                startYear = year;
+                                startMonth = monthOfYear;
+                                startDay = dayOfMonth;
+
+                            }
+                        }, startYear, startMonth, startDay);
+                //set as year , month-1 (0 represents janauary) , day
+                datePickerDialog.show();
+            }
+
+        });
+
+        endDateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //API problems occured with normal methods.
+                //Don't really like using this calendar
+                DatePickerDialog datePickerDialog = new DatePickerDialog(MedicationEdit.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                endDateTextView.setText(setDatesTextView(year, monthOfYear, dayOfMonth));
+                                endYear = year;
+                                endMonth = monthOfYear;
+                                endDay = dayOfMonth;
+
+                            }
+                        }, endYear, endMonth, endDay);
+                //set as year , month-1 (0 represents janauary) , day
+                datePickerDialog.show();
+            }
+
+        });
+
 
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -262,13 +350,34 @@ public class MedicationEdit extends AppCompatActivity {
                     return;
                 }
 
+                Integer medicationStartDate = 0, medicationEndDate = 0;
+                medicationStartDate = startYear*10000 + startMonth*100 + startDay;
+                medicationEndDate = endYear*10000 + endMonth*100 + endDay;
+
+                if(medicationStartDate > medicationEndDate){
+                    Toast.makeText(MedicationEdit.this, "End date cannot be before start date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if((medicationStartDate < currentDate) || (medicationEndDate < currentDate)){
+                    Toast.makeText(MedicationEdit.this, "Dates cannot be set before today", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 medicationInEdit = new Medication(
                         medicationId,
                         medicationTitle,
                         medicationDescription,
                         medicationHour,
                         medicationMinute,
-                        medicationDays);
+                        medicationDays,
+                        startYear,
+                        startMonth,
+                        startDay,
+                        endYear,
+                        endMonth,
+                        endDay
+                );
 
 
                 userReference.child(medicationId).setValue(medicationInEdit);
@@ -393,7 +502,7 @@ public class MedicationEdit extends AppCompatActivity {
         }
     }
 
-    private void setDatesTextView(boolean[] dates) {
+    private void setDaysTextView(boolean[] dates) {
         datesTextView.setText("");
         for (int i = 0; i < 7; i++) {
             if (dates[i] == true) {
@@ -425,6 +534,52 @@ public class MedicationEdit extends AppCompatActivity {
         if (datesTextView.getText().toString().equals("")) {
             datesTextView.setText("Enter dates here.");
         }
+    }
+
+    private String setDatesTextView(int year, int month, int day){
+        String date = "";
+        date = Integer.toString(day) + " ";
+        switch (month) {
+            case 0:
+                date = date + "Jan ";
+                break;
+            case 1:
+                date = date + "Feb ";
+                break;
+            case 2:
+                date = date + "Mar ";
+                break;
+            case 3:
+                date = date + "Apr ";
+                break;
+            case 4:
+                date = date + "May ";
+                break;
+            case 5:
+                date = date + "Jun ";
+                break;
+            case 6:
+                date = date + "Jul ";
+                break;
+            case 7:
+                date = date + "Aug ";
+                break;
+            case 8:
+                date = date + "Sep ";
+                break;
+            case 9:
+                date = date + "Oct ";
+                break;
+            case 10:
+                date = date + "Nov ";
+                break;
+            case 11:
+                date = date + "Dec ";
+                break;
+        }
+        date = date + Integer.toString(year);
+
+        return date;
     }
 
 }

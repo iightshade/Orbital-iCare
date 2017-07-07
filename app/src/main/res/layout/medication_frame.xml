@@ -25,6 +25,15 @@
         android:layout_below="@+id/medicationImage"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:id="@+id/expiredTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Expired"
+        android:textSize="35sp"
+        android:visibility="gone"/>
+
 
 
 </RelativeLayout>
