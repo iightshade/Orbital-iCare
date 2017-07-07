@@ -1,7 +1,10 @@
 package com.logcat.example.pc.orbitalproj;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.AlarmManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -40,6 +43,8 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static android.content.Context.ALARM_SERVICE;
 
 
 public class MedicationFragment extends Fragment {
@@ -93,15 +98,24 @@ public class MedicationFragment extends Fragment {
 
                 for (DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
                     temp = categoriesSnapShot.getValue(Medication.class);
-
                     tempList.add(temp);
-                    i++;
 
                     Calendar upcoming = upcomingMedication(temp);
-                    //Log.i("next date should be 6", String.valueOf(upcoming.get(Calendar.DAY_OF_WEEK)));
-                    //Log.i("Time is", String.valueOf(upcoming.get(Calendar.HOUR_OF_DAY)) + " " + String.valueOf(upcoming.get(Calendar.MINUTE)));
+                    if (upcoming != null) {
 
-                    //check for expired date, if expired then no need to do the function to find the next date.
+                        Long alarmTime = upcoming.getTimeInMillis();
+
+                        Intent intent = new Intent(getContext(), NotificationBroadcast.class);
+                        intent.putExtra("Key", 123);
+
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 123, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
+                    }
+
+                    i++;
                 }
 
                 Medication addNewMedication = null;
@@ -148,7 +162,7 @@ public class MedicationFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                if(tempList.size() == (position + 1)){
+                if (tempList.size() == (position + 1)) {
                     return false;
                 }
 
@@ -164,8 +178,8 @@ public class MedicationFragment extends Fragment {
                             popupMenu.dismiss();
                         }
 
-                        if(item.getTitle().toString().equals("Edit")){
-                            Intent intent = new Intent(getActivity() , MedicationEdit.class);
+                        if (item.getTitle().toString().equals("Edit")) {
+                            Intent intent = new Intent(getActivity(), MedicationEdit.class);
                             medication = tempList.get(position);
                             intent.putExtra("Medicine", medication);
                             startActivity(intent);
@@ -229,8 +243,12 @@ public class MedicationFragment extends Fragment {
 
     }
 
-    private Calendar upcomingMedication(Medication medication){
+    private Calendar upcomingMedication(Medication medication) {
         //returns a 'Calendar' that contains the medication's most upcoming date and time of consumption
+
+        if ((checkStartAndEnd(medication)) == false) {
+            return null;
+        }
 
         ArrayList<Boolean> daysChecked;
         Calendar calendar;
@@ -243,38 +261,65 @@ public class MedicationFragment extends Fragment {
         daysChecked = medication.getMedicationDays();
 
         //convert to database version
-        today = today - 2;
-        if(today < 0){
-            today = 6;
+        int alarmDay = today - 2;
+        if (alarmDay < 0) {
+            alarmDay = 6;
         }
 
-        for(int counter = 0; counter < 7; counter++){
-            if(daysChecked.get(today) == true){
+        for (int counter = 0; counter < 7; counter++) {
+            if (daysChecked.get(alarmDay) == true) {
                 medicationHour = Integer.valueOf(medication.getMedicationHour());
                 medicationMinute = Integer.valueOf(medication.getMedicationMinute());
                 break;
-            }else{
+            } else {
                 //go to the next day. check if next date is out of bounds
-                today++;
-                if(today > 6){
-                    today = 0;
+                alarmDay++;
+                if (alarmDay > 6) {
+                    alarmDay = 0;
                 }
             }
         }
         //convert back to android version
-        today = today  + 2;
-        if(today > 7){
-            today = 1;
+        alarmDay = alarmDay + 2;
+        if (alarmDay > 7) {
+            alarmDay = 1;
         }
 
-        calendar.set(Calendar.DAY_OF_WEEK, today);
+
+        calendar.set(Calendar.DAY_OF_WEEK, alarmDay);
         calendar.set(Calendar.HOUR_OF_DAY, medicationHour);
         calendar.set(Calendar.MINUTE, medicationMinute);
         calendar.set(Calendar.SECOND, 0);
 
+        Log.i("medicationMinute", String.valueOf(medicationMinute));
+
         return calendar;
     }
 
+    private boolean checkStartAndEnd(Medication medication) {
+
+        Integer startYear = medication.getMedicationStartYear();
+        Integer startMonth = medication.getMedicationStartMonth();
+        Integer startDay = medication.getMedicationStartDay();
+        Integer startDate = startYear * 10000 + startMonth * 100 + startDay;
+
+        Integer endYear = medication.getMedicationEndYear();
+        Integer endMonth = medication.getMedicationEndMonth();
+        Integer endDay = medication.getMedicationEndDay();
+        Integer endDate = endYear * 10000 + endMonth * 100 + endDay;
+
+        Calendar calendar = Calendar.getInstance();
+        Integer currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        Integer currentMonth = calendar.get(Calendar.MONTH);
+        Integer currentYear = calendar.get(Calendar.YEAR);
+        Integer currentDate = currentYear * 10000 + currentMonth * 100 + currentDay;
+
+        if ((startDate <= currentDate) && (currentDate <= endDate)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
 
