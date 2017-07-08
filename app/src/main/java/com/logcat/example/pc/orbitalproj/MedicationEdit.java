@@ -359,8 +359,8 @@ public class MedicationEdit extends AppCompatActivity {
                     return;
                 }
 
-                if((medicationStartDate < currentDate) || (medicationEndDate < currentDate)){
-                    Toast.makeText(MedicationEdit.this, "Dates cannot be set before today", Toast.LENGTH_SHORT).show();
+                if((medicationEndDate < currentDate)){
+                    Toast.makeText(MedicationEdit.this, "End date cannot be set before today", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
