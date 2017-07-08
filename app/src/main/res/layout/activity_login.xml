@@ -40,7 +40,6 @@
             android:id="@+id/password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:textColor="@android:color/white"
@@ -57,6 +56,16 @@
             android:text="@string/btn_login"
             android:textColor="@android:color/black" />
 
+
+        <!-- Link to Login Screen -->
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="fill_parent"
+            android:layout_height="56dip"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dip" />
+
         <Button
             android:id="@+id/btn_reset_password"
             android:layout_width="fill_parent"
@@ -67,19 +76,18 @@
             android:textAllCaps="false"
             android:textColor="@color/colorAccent" />
 
-        <!-- Link to Login Screen -->
-
         <Button
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="10dip"
             android:background="@null"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="15dp" />
     </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/progressBar"
