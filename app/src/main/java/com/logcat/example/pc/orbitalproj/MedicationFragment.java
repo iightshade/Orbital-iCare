@@ -4,10 +4,8 @@ package com.logcat.example.pc.orbitalproj;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.app.AlarmManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,10 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -39,8 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -105,10 +99,11 @@ public class MedicationFragment extends Fragment {
 
                         Long alarmTime = upcoming.getTimeInMillis();
 
-                        Intent intent = new Intent(getContext(), NotificationBroadcast.class);
-                        intent.putExtra("Key", 123);
+                        Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
+                        intent.putExtra("Key", i);
+                        intent.putExtra("medicationTitle", temp.getMedicationTitle());
 
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 123, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
@@ -246,7 +241,10 @@ public class MedicationFragment extends Fragment {
     private Calendar upcomingMedication(Medication medication) {
         //returns a 'Calendar' that contains the medication's most upcoming date and time of consumption
 
-        if ((checkStartAndEnd(medication)) == false) {
+        if ((checkStartAndEndDates(medication)) == false) {
+            return null;
+        }
+        if(checkTiming(medication) == false){
             return null;
         }
 
@@ -256,6 +254,7 @@ public class MedicationFragment extends Fragment {
         Integer medicationHour = 0;
         Integer medicationMinute = 0;
         calendar = Calendar.getInstance();
+
         int today = calendar.get(Calendar.DAY_OF_WEEK);
 
         daysChecked = medication.getMedicationDays();
@@ -285,19 +284,16 @@ public class MedicationFragment extends Fragment {
             alarmDay = 1;
         }
 
-
         calendar.set(Calendar.DAY_OF_WEEK, alarmDay);
         calendar.set(Calendar.HOUR_OF_DAY, medicationHour);
         calendar.set(Calendar.MINUTE, medicationMinute);
         calendar.set(Calendar.SECOND, 0);
 
-        Log.i("medicationMinute", String.valueOf(medicationMinute));
-
         return calendar;
     }
 
-    private boolean checkStartAndEnd(Medication medication) {
-
+    private boolean checkStartAndEndDates(Medication medication) {
+        //returns true if today's date is within start and end date limits
         Integer startYear = medication.getMedicationStartYear();
         Integer startMonth = medication.getMedicationStartMonth();
         Integer startDay = medication.getMedicationStartDay();
@@ -317,6 +313,21 @@ public class MedicationFragment extends Fragment {
         if ((startDate <= currentDate) && (currentDate <= endDate)) {
             return true;
         } else {
+            return false;
+        }
+    }
+
+    private boolean checkTiming(Medication medication){
+        // Returns true if current time is before medication time
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calendar.get(Calendar.MINUTE);
+        int medicationHour = Integer.parseInt(medication.getMedicationHour());
+        int medicationMinute = Integer.parseInt(medication.getMedicationMinute());
+
+        if((currentHour*60 + currentMinute) < (medicationHour*60 + medicationMinute)){
+            return true;
+        }else{
             return false;
         }
     }

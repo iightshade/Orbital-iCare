@@ -14,6 +14,7 @@ public class NotificationBroadcast extends BroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
         int key = (int) intent.getExtras().get("Key");
+        String medicationTitle = (String) intent.getExtras().get("medicationTitle");
 
         NotificationManager notificationManager = (NotificationManager)context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
@@ -21,17 +22,17 @@ public class NotificationBroadcast extends BroadcastReceiver{
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 123, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, key, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Notification title")
-                .setContentText("Content Text")
+                .setContentTitle("iCare Alert")
+                .setContentText("Eat " + medicationTitle)
                 .setSound(alarmSound)
-                .setOngoing(true)
+                .setOngoing(false)
                 .setAutoCancel(true);
 
-        notificationManager.notify(123, builder.build());
+        notificationManager.notify(key, builder.build());
     }
 }
