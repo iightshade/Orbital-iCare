@@ -42,11 +42,6 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
     int count=0;
 
-    LocalDate endDate=new LocalDate("2017-07-18");
-    LocalDate startDate=new LocalDate("2017-07-02");
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,7 +70,6 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
     }
 
 
-
     @Override
     public List<WeekViewEvent> onMonthChange(final int newYear, final int newMonth) {
 
@@ -92,6 +86,7 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
+
                             List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
                             count++;
@@ -99,6 +94,8 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                             Medication temp = snapshot.getValue(Medication.class);
 
                             medicationDays=temp.getMedicationDays();
+
+
 
                             for (Integer i=0 ; i<medicationDays.size() ; i++){
 
@@ -139,7 +136,8 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
 
 
-
+                            LocalDate endDate=new LocalDate(temp.getMedicationEndYear(),temp.getMedicationEndMonth()+1,temp.getMedicationEndDay()+1);
+                            LocalDate startDate=new LocalDate(temp.getMedicationStartYear(),temp.getMedicationStartMonth()+1,temp.getMedicationStartDay());
 
                             for (WeekViewEvent event : events) {
                                 Calendar dateTime = event .getStartTime();
@@ -175,17 +173,13 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
                                     looperEvents.add(newEvent);
                                     for (WeekViewEvent kEvent : looperEvents) {
-                                        if (eventMatches(kEvent, newYear, newMonth)) {
+                                        if (eventMatches(kEvent, newYear, newMonth) && (new LocalDate(kEvent.getStartTime()).isAfter(startDate)) || new LocalDate(kEvent.getStartTime()).isEqual(startDate)){
                                             newEvents.add(kEvent);
                                         }
                                     }
 
                                 }
                             }
-
-
-
-
                         }
                     }
 
