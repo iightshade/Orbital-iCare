@@ -91,18 +91,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,19 +108,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .enableAutoManage(LoginActivity.this,this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,21 +182,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
 
-
-
-
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d("HAHA", "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        //Toast.makeText(LoginActivity.this,""+credential.getProvider(),Toast.LENGTH_LONG).show();
 
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        Log.d("haha", "signInWithCredential:onComplete:" + task.isSuccessful());
 
                         if (task.isSuccessful()){
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -234,7 +202,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     }
                 });
     }
-
 
 
     @Override

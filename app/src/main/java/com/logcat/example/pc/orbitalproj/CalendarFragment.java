@@ -30,8 +30,7 @@ import java.util.List;
 public class CalendarFragment extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EmptyViewClickListener, WeekView.EventClickListener {
 
     private WeekView mWeekView;
-    private List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
-    List<WeekViewEvent> newEvents= new ArrayList<WeekViewEvent>();
+    private List<WeekViewEvent> newEvents= new ArrayList<WeekViewEvent>();
     private ArrayList<Boolean> medicationDays;
 
     FirebaseAuth userAuth;
@@ -82,15 +81,18 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
 
 
+
         List<WeekViewEvent> matchedEvents = new ArrayList<WeekViewEvent>();
-        List<WeekViewEvent> finalEvents = new ArrayList<WeekViewEvent>();
 
 
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
+
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
                             count++;
 
@@ -131,10 +133,59 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                                 }
                             }
 
-
                             if (count==dataSnapshot.getChildrenCount()){
                                 mWeekView.notifyDatasetChanged();
                             }
+
+
+
+
+
+                            for (WeekViewEvent event : events) {
+                                Calendar dateTime = event .getStartTime();
+                                Calendar dateEndTime = event .getEndTime();
+                                Calendar monCal = getFirstDay(newMonth - 1, newYear, dateTime.get(Calendar.DAY_OF_WEEK));
+                                int hday = dateTime.get(Calendar.HOUR_OF_DAY);
+                                int mday = dateTime.get(Calendar.MINUTE);
+                                int ehday = dateEndTime.get(Calendar.HOUR_OF_DAY);
+                                int emday = dateEndTime.get(Calendar.MINUTE);
+
+                                for (LocalDate date = new LocalDate(monCal); date.isBefore(endDate); date = date.plusDays(7)) {
+
+                                    List<WeekViewEvent> looperEvents = new ArrayList<WeekViewEvent>();
+
+                                    Calendar startTime = Calendar.getInstance();
+                                    startTime.set(Calendar.MONTH, newMonth - 1);
+                                    startTime.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
+                                    startTime.set(Calendar.YEAR, newYear);
+                                    startTime.set(Calendar.HOUR_OF_DAY, hday);
+                                    startTime.set(Calendar.MINUTE, mday);
+                                    startTime.set(Calendar.SECOND, 0);
+                                    startTime.set(Calendar.MILLISECOND, 0);
+
+                                    Calendar endTime = (Calendar) startTime.clone();
+                                    endTime.set(Calendar.HOUR_OF_DAY, ehday);
+                                    endTime.set(Calendar.MINUTE, emday - 1);
+                                    endTime.set(Calendar.MONTH, newMonth - 1);
+                                    endTime.set(Calendar.SECOND, 59);
+                                    endTime.set(Calendar.MILLISECOND, 999);
+
+                                    WeekViewEvent newEvent = new WeekViewEvent(1, event .getName(), startTime, endTime);
+
+
+                                    looperEvents.add(newEvent);
+                                    for (WeekViewEvent kEvent : looperEvents) {
+                                        if (eventMatches(kEvent, newYear, newMonth)) {
+                                            newEvents.add(kEvent);
+                                        }
+                                    }
+
+                                }
+                            }
+
+
+
+
                         }
                     }
 
@@ -145,74 +196,21 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                 });
 
 
-        for (WeekViewEvent event : events) {
+        for (WeekViewEvent event : newEvents) {
             if (eventMatches(event, newYear, newMonth)) {
                 matchedEvents.add(event);
             }
         }
 
-        for (WeekViewEvent event : matchedEvents) {
-            Calendar dateTime = event .getStartTime();
-            Calendar dateEndTime = event .getEndTime();
-            Calendar monCal = getFirstDay(newMonth - 1, newYear, dateTime.get(Calendar.DAY_OF_WEEK));
-            int hday = dateTime.get(Calendar.HOUR_OF_DAY);
-            int mday = dateTime.get(Calendar.MINUTE);
-            int ehday = dateEndTime.get(Calendar.HOUR_OF_DAY);
-            int emday = dateEndTime.get(Calendar.MINUTE);
-
-            for (LocalDate date = new LocalDate(monCal); date.isBefore(endDate); date = date.plusDays(7)) {
-
-                List<WeekViewEvent> looperEvents = new ArrayList<WeekViewEvent>();
-
-                Calendar startTime = Calendar.getInstance();
-                startTime.set(Calendar.MONTH, newMonth - 1);
-                startTime.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
-                startTime.set(Calendar.YEAR, newYear);
-                startTime.set(Calendar.HOUR_OF_DAY, hday);
-                startTime.set(Calendar.MINUTE, mday);
-                startTime.set(Calendar.SECOND, 0);
-                startTime.set(Calendar.MILLISECOND, 0);
-
-                Calendar endTime = (Calendar) startTime.clone();
-                endTime.set(Calendar.HOUR_OF_DAY, ehday);
-                endTime.set(Calendar.MINUTE, emday - 1);
-                endTime.set(Calendar.MONTH, newMonth - 1);
-                endTime.set(Calendar.SECOND, 59);
-                endTime.set(Calendar.MILLISECOND, 999);
-
-                WeekViewEvent newEvent = new WeekViewEvent(1, event .getName(), startTime, endTime);
-
-
-                looperEvents.add(newEvent);
-                for (WeekViewEvent kEvent : looperEvents) {
-                    if (eventMatches(kEvent, newYear, newMonth)) {
-                        newEvents.add(kEvent);
-                    }
-                }
-
-            }
-        }
-
-
-        for (WeekViewEvent evented : newEvents) {
-            if (eventMatches(evented, newYear, newMonth)) {
-                finalEvents.add(evented);
-            }
-        }
-
         List<WeekViewEvent> legitEvents = new ArrayList<WeekViewEvent>();
 
-
-        for (WeekViewEvent legit : finalEvents){
-            if (!new LocalDate(legit.getEndTime()).isBefore(startDate)){
+        for (WeekViewEvent legit : matchedEvents){
+            if (!new LocalDate(legit.getEndTime()).isBefore(new LocalDate(Calendar.getInstance()))){
                 legitEvents.add(legit);
             }
         }
 
-
-
         return legitEvents;
-
     }
 
 
