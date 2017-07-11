@@ -4,28 +4,28 @@
     <item
         android:id="@+id/medication"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@mipmap/ic_add_box_black_24dp"
         android:title="Medication"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/calendar"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@mipmap/ic_date_range_black_24dp"
         android:title="Calendar"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/userInfo"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@mipmap/ic_account_circle_black_24dp"
         android:title="User Info"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/settings"
         android:enabled="true"
-        android:icon="@drawable/common_full_open_on_phone"
+        android:icon="@mipmap/ic_settings_black_24dp"
         android:title="Settings"
         app:showAsAction="ifRoom" />
 </menu>
