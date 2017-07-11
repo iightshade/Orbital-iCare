@@ -69,33 +69,22 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         return mView;
     }
 
-
     @Override
     public List<WeekViewEvent> onMonthChange(final int newYear, final int newMonth) {
 
-
-
-
         List<WeekViewEvent> matchedEvents = new ArrayList<WeekViewEvent>();
-
 
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
-
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
 
                             List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
                             count++;
 
                             Medication temp = snapshot.getValue(Medication.class);
-
                             medicationDays=temp.getMedicationDays();
-
-
 
                             for (Integer i=0 ; i<medicationDays.size() ; i++){
 
@@ -116,15 +105,12 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                                     endTime.set(Calendar.MONTH, newMonth - 1);
 
 
-
-
                                     WeekViewEvent mEvent = new WeekViewEvent(1, temp.getMedicationTitle(), startTime, endTime);
 
                                     loopEvents.add(mEvent);
                                     for (WeekViewEvent pEvent : loopEvents) {
                                         if (eventMatches(pEvent, newYear, newMonth)) {
                                             events.add(pEvent);
-
                                 }
                             }
                                 }
@@ -133,7 +119,6 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                             if (count==dataSnapshot.getChildrenCount()){
                                 mWeekView.notifyDatasetChanged();
                             }
-
 
 
                             LocalDate endDate=new LocalDate(temp.getMedicationEndYear(),temp.getMedicationEndMonth()+1,temp.getMedicationEndDay()+1);
@@ -170,7 +155,6 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
 
                                     WeekViewEvent newEvent = new WeekViewEvent(1, event .getName(), startTime, endTime);
 
-
                                     looperEvents.add(newEvent);
                                     for (WeekViewEvent kEvent : looperEvents) {
                                         if (eventMatches(kEvent, newYear, newMonth) && (new LocalDate(kEvent.getStartTime()).isAfter(startDate)) || new LocalDate(kEvent.getStartTime()).isEqual(startDate)){
@@ -182,7 +166,6 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
                             }
                         }
                     }
-
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -208,7 +191,6 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
     }
 
 
-
     public static Calendar getFirstDay(int i2, int i, int weekday) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.MONTH, i2);
@@ -221,9 +203,6 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         }
         return c;
     }
-
-
-
 
 
     @Override
