@@ -45,6 +45,7 @@ public class MedicationViewer extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme2);
         setContentView(R.layout.medication_viewer_layout);
 
         userAuth = FirebaseAuth.getInstance();

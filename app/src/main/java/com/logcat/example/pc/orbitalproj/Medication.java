@@ -21,7 +21,6 @@ public class Medication extends Object implements Parcelable {
     private Integer medicationEndYear;
     private Integer medicationEndMonth;
     private Integer medicationEndDay;
-
     private ArrayList<Boolean> medicationDays;
 
     public Medication(String medicationId,
@@ -55,7 +54,7 @@ public class Medication extends Object implements Parcelable {
 
     }
 
-    protected Medication(Parcel in) {
+    private Medication(Parcel in) {
         medicationId = in.readString();
         medicationTitle = in.readString();
         medicationDescription = in.readString();

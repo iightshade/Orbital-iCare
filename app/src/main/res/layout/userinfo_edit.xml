@@ -7,10 +7,10 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:text="Userinfo"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/textView5"
@@ -23,7 +23,7 @@
         android:text="Name:"
         android:textSize="18sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:text="NRIC:"
         android:textSize="18sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/icTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
         android:text="Age:"
         android:textSize="18sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/ageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
         android:text="Sex:"
         android:textSize="18sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/sexTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
         android:text="Allergies:"
         android:textSize="18sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/allergiesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
         android:textSize="18sp" />
 
 
-    <TextView
+    <EditText
         android:id="@+id/chronicTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
         android:text="Other(s):"
         android:textSize="18sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/otherTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -160,15 +160,30 @@
         android:text=""
         android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/editUserInfoButton"
-        android:layout_width="150dp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit"
-        android:textSize="20sp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"/>
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <Button
+            android:id="@+id/saveUserInfoButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/cancelUserInfoButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 
 </RelativeLayout>
