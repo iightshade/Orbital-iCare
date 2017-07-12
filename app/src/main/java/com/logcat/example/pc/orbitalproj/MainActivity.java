@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                                 fragment = new MedicationFragment();
                                 break;
                             case R.id.calendar:
-                                fragment = new CalendarFragment();
+                                fragment = new CalendarMainFragment();
                                 break;
                             case R.id.userInfo:
                                 fragment = new UserinfoFragment();
