@@ -5,12 +5,12 @@
         <item
             android:id="@+id/nav_first_fragment"
             android:title="Week"
-            android:icon="@mipmap/ic_view_week_black_24dp"
-            android:checked="true"/>
+            android:icon="@mipmap/ic_view_week_black_24dp" />
         <item
             android:id="@+id/nav_second_fragment"
             android:title="3 Day"
-            android:icon="@mipmap/ic_view_column_black_24dp"/>
+            android:icon="@mipmap/ic_view_column_black_24dp"
+            android:checked="true"/>
         <item
             android:id="@+id/nav_third_fragment"
             android:title="Day"

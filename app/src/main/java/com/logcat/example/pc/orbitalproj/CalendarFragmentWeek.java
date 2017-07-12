@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
@@ -27,7 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class CalendarFragment extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EmptyViewClickListener, WeekView.EventClickListener {
+public class CalendarFragmentWeek extends Fragment implements MonthLoader.MonthChangeListener, WeekView.EmptyViewClickListener, WeekView.EventClickListener {
 
     private WeekView mWeekView;
     private List<WeekViewEvent> newEvents= new ArrayList<WeekViewEvent>();
@@ -54,8 +53,12 @@ public class CalendarFragment extends Fragment implements MonthLoader.MonthChang
         userReference = firebaseDatabase.getReference(userId);
 
         // Inflate the layout for this fragment
-        View mView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        View mView = inflater.inflate(R.layout.fragment_calendar_week, container, false);
         mWeekView = (WeekView) mView.findViewById(R.id.weekView);
+
+        mWeekView.setNumberOfVisibleDays(7);
+
+        mWeekView.goToDate(Calendar.getInstance());
 
         //set listener for month change
         mWeekView.setMonthChangeListener(this);

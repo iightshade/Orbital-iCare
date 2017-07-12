@@ -1,6 +1,8 @@
 package com.logcat.example.pc.orbitalproj;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,20 +41,41 @@ public class CalendarMainFragment extends Fragment {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         mDrawer = (DrawerLayout) mView.findViewById(R.id.drawer_layout);
+        drawerToggle = setupDrawerToggle();
+
+        mDrawer.addDrawerListener(drawerToggle);
 
         nvDrawer = (NavigationView) mView.findViewById(R.id.nvView);
         // Setup drawer view
         setupDrawerContent(nvDrawer);
 
-        //Load The 7 day view as the default
-        fragment = new CalendarFragment();
+        //Load The 3 day view as the default
+        fragment = new CalendarFragment3Day();
         fragmentManager = getActivity().getSupportFragmentManager();
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.flContent, fragment).commit();
+        getActivity().setTitle("3 Day");
 
 
         return mView;
     }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
 
 
     @Override
@@ -62,6 +85,10 @@ public class CalendarMainFragment extends Fragment {
             case android.R.id.home:
                 mDrawer.openDrawer(GravityCompat.START);
                 return true;
+        }
+
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -87,16 +114,16 @@ public class CalendarMainFragment extends Fragment {
         Class fragmentClass;
         switch(menuItem.getItemId()) {
             case R.id.nav_first_fragment:
-                fragmentClass = CalendarFragment.class;
+                fragmentClass = CalendarFragmentWeek.class;
                 break;
             case R.id.nav_second_fragment:
-                fragmentClass = CalendarFragment.class;
+                fragmentClass = CalendarFragment3Day.class;
                 break;
             case R.id.nav_third_fragment:
-                fragmentClass = CalendarFragment.class;
+                fragmentClass = CalendarFragmentDay.class;
                 break;
             default:
-                fragmentClass = CalendarFragment.class;
+                fragmentClass = CalendarFragment3Day.class;
         }
 
         try {
@@ -117,6 +144,13 @@ public class CalendarMainFragment extends Fragment {
         mDrawer.closeDrawers();
     }
 
+
+
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        // NOTE: Make sure you pass in a valid toolbar reference.  ActionBarDrawToggle() does not require it
+        // and will not render the hamburger icon without it.
+        return new ActionBarDrawerToggle(getActivity(), mDrawer, toolbar, R.string.drawer_open,  R.string.drawer_close);
+    }
 
 
 }
