@@ -5,7 +5,7 @@
 
 
     <ImageView
-        android:id="@+id/medicationImage"
+        android:id="@+id/medicationImageAdapter"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentTop="true"
@@ -16,17 +16,17 @@
         app:srcCompat="@drawable/no_image" />
 
     <TextView
-        android:id="@+id/medicationMainTitle"
+        android:id="@+id/medicationMainTitleAdapter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="medicationMain"
+        android:text="Main"
         android:textSize="25sp"
         android:gravity="center_horizontal"
-        android:layout_below="@+id/medicationImage"
+        android:layout_below="@+id/medicationImageAdapter"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/expiredTextView"
+        android:id="@+id/expiredTextViewAdapter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

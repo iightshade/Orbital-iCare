@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class MedicationFragment extends Fragment {
 
     GridView medicationGridView;
     View view;
+    Button medicationFragmentAddButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class MedicationFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_medication, container, false);
         medicationGridView = (GridView) view.findViewById(R.id.medicationGridView);
+        medicationFragmentAddButton = (Button) view.findViewById(R.id.medicationFragmentAddButton);
         calendar = Calendar.getInstance();
         upcoming = Calendar.getInstance();
 
@@ -113,9 +116,6 @@ public class MedicationFragment extends Fragment {
                     i++;
                 }
 
-                Medication addNewMedication = null;
-                tempList.add(addNewMedication);
-
                 MedicationViewAdapter adapter = new MedicationViewAdapter(getActivity(), tempList);
                 medicationGridView.setAdapter(adapter);
 
@@ -134,32 +134,22 @@ public class MedicationFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         medicationGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (tempList.size() == (position + 1)) {
-                    Intent intent = new Intent(getActivity(), MedicationEdit.class);
-                    startActivity(intent);
-
-                } else {
 
                     Intent intent = new Intent(getActivity(), MedicationViewer.class);
                     medication = tempList.get(position);
                     intent.putExtra("Medicine", medication);
                     startActivity(intent);
 
-                }
             }
         });
 
         medicationGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                if (tempList.size() == (position + 1)) {
-                    return false;
-                }
 
                 final PopupMenu popupMenu = new PopupMenu(getContext(), view);
                 popupMenu.getMenuInflater().inflate(R.menu.medication_popup, popupMenu.getMenu());
@@ -189,7 +179,15 @@ public class MedicationFragment extends Fragment {
             }
         });
 
-
+        medicationFragmentAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MedicationEdit.class);
+                Medication addNewMedication = null;
+                intent.putExtra("Medicine", addNewMedication);
+                startActivity(intent);
+            }
+        });
     }
 
     private boolean ConfirmDelete(Integer position) {

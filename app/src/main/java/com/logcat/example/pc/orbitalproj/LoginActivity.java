@@ -45,15 +45,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-
         //KIV unsure how to solve
-
 
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
