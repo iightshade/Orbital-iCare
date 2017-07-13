@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset, sign_out;
     private SignInButton signin;
+    private CheckBox adminCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +53,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //KIV unsure how to solve
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+            if (auth.getCurrentUser().getEmail().endsWith("admin.com")) {
+                startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+                finish();
+            } else {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
         }
 
         // set the view now
 
         setContentView(R.layout.activity_login);
-
 
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
@@ -67,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
         signin = (SignInButton) findViewById(R.id.sign_in_button);
+        adminCheckBox = (CheckBox) findViewById(R.id.adminCheckBox);
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -74,6 +81,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isAdminChecked() == true) {
+                    return;
+                }
                 startActivity(new Intent(LoginActivity.this, SignupActivity.class));
             }
         });
@@ -81,6 +91,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isAdminChecked() == true) {
+                    return;
+                }
                 startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
             }
         });
@@ -89,6 +102,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isAdminChecked() == true) {
+                    return;
+                }
                 signIn();
             }
         });
@@ -100,14 +116,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(LoginActivity.this,this)
+                .enableAutoManage(LoginActivity.this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = inputEmail.getText().toString();
+
+                final String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
@@ -120,7 +137,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+                //progressBar.setVisibility(View.VISIBLE);
+
 
                 //authenticate user
                 auth.signInWithEmailAndPassword(email, password)
@@ -130,7 +148,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
+                                //progressBar.setVisibility(View.GONE);
                                 if (!task.isSuccessful()) {
                                     // there was an error
                                     if (password.length() < 6) {
@@ -139,19 +157,26 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    if (adminCheckBox.isChecked() && email.endsWith("admin.com")) {
+                                        Intent intent = new Intent(LoginActivity.this, AdminMainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 }
                             }
                         });
+
             }
         });
     }
 
 
 
-    public void signIn(){
+    public void signIn() {
 
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(intent, RC_SIGN_IN);
@@ -161,10 +186,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==RC_SIGN_IN){
+        if (requestCode == RC_SIGN_IN) {
 
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()){
+            if (result.isSuccess()) {
 
                 GoogleSignInAccount account = result.getSignInAccount();
 
@@ -173,8 +198,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         }
     }
-
-
 
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -186,13 +209,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
 
-                        }else {
-                            Toast.makeText(LoginActivity.this,"Something went wrong",Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -204,6 +227,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
+    private boolean isAdminChecked() {
+        if (adminCheckBox.isChecked()) {
+            Toast.makeText(this, "Admin login has been checked. \n Un-check to continue", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
 

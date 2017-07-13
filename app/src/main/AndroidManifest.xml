@@ -28,6 +28,7 @@
         <activity android:name=".MedicationViewer"/>
         <activity android:name=".MedicationEdit"/>
         <activity android:name=".UserInfoEdit"/>
+        <activity android:name=".AdminMainActivity"/>
         <receiver android:name=".NotificationBroadcast"/>
     </application>
 
