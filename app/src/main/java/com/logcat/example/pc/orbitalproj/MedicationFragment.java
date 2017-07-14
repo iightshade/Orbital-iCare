@@ -38,6 +38,10 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -92,7 +96,7 @@ public class MedicationFragment extends Fragment {
                 tempList = new ArrayList<Medication>();
                 tempList.clear();
                 int i = 0;
-
+                //ExecutorService executorService = new ThreadPoolExecutor(4,4,0L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(15));
                 for (DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
                     temp = categoriesSnapShot.getValue(Medication.class);
                     tempList.add(temp);

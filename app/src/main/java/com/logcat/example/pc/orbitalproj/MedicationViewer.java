@@ -68,6 +68,8 @@ public class MedicationViewer extends AppCompatActivity{
         String medicationId = medication.getMedicationId();
         StorageReference importReference = storageReference.child(medicationId + ".jpg");
 
+
+
         importReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri downloadUrl) {
