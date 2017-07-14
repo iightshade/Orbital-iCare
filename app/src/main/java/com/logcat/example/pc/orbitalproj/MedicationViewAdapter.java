@@ -2,6 +2,7 @@ package com.logcat.example.pc.orbitalproj;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MedicationViewAdapter extends BaseAdapter {
 
@@ -101,15 +104,7 @@ public class MedicationViewAdapter extends BaseAdapter {
 
         StorageReference importReference = storageReference.child(medicationId + ".jpg");
 
-        importReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri downloadUrl) {
-                Glide.with(context.getApplicationContext())
-                        .load(downloadUrl)
-                        .dontAnimate()
-                        .into(medicationImage);
-            }
-        });
+        glideMultiThreading(importReference, context, medicationImage);
 
         medicationMainTitle.setText(medication.getMedicationTitle());
 
@@ -125,5 +120,14 @@ public class MedicationViewAdapter extends BaseAdapter {
         }
 
         return view;
+    }
+
+    private static void glideMultiThreading(StorageReference importReference, Context context, ImageView medicationImage) {
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        Runnable worker = new WorkerThread(importReference, context, medicationImage, "");
+        executor.execute(worker);
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+        }
     }
 }

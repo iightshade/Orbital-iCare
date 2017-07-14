@@ -96,6 +96,7 @@ public class MedicationFragment extends Fragment {
                 tempList = new ArrayList<Medication>();
                 tempList.clear();
                 int i = 0;
+                //ThreadPoolExecutor threadPoolExecutor =new ExecutorService();
                 //ExecutorService executorService = new ThreadPoolExecutor(4,4,0L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(15));
                 for (DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
                     temp = categoriesSnapShot.getValue(Medication.class);
