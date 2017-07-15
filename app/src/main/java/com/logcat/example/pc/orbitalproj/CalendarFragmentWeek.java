@@ -212,19 +212,8 @@ public class CalendarFragmentWeek extends Fragment implements MonthLoader.MonthC
     public void onEmptyViewClicked(Calendar time) {
 
         Intent intent = new Intent(getActivity(), MedicationEdit.class);
+        intent.putExtra("Medicine", "CalendarFragmentWeek");
         startActivity(intent);
-
-
-        /*// Set the new event with duration one hour.
-        Calendar endTime = (Calendar) time.clone();
-        endTime.add(Calendar.HOUR, 1);
-
-        // Create a new event.
-        WeekViewEvent event = new WeekViewEvent(20, "New event", time, endTime);
-        mNewEvents.add(event);*/
-
-        // Refresh the week view. onMonthChange will be called again.
-        //mWeekView.notifyDatasetChanged();
     }
 
 

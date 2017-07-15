@@ -49,13 +49,54 @@ public class CalendarMainFragment extends Fragment {
         // Setup drawer view
         setupDrawerContent(nvDrawer);
 
-        //Load The 3 day view as the default
-        fragment = new CalendarFragment3Day();
-        fragmentManager = getActivity().getSupportFragmentManager();
-        final FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.flContent, fragment).commit();
-        getActivity().setTitle("3 Day");
+        String strtext;
 
+        try {
+            strtext=getArguments().getString("message");
+        } catch (NullPointerException e) {
+            strtext = null;
+        }
+
+
+        if (strtext==null){
+            //Load The 3 day view as the default
+            fragment = new CalendarFragment3Day();
+            fragmentManager = getActivity().getSupportFragmentManager();
+            final FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(R.id.flContent, fragment).commit();
+            getActivity().setTitle("3 Day");
+        }else{
+            strtext=getArguments().getString("message");
+            switch (strtext) {
+                case "Calendar3Day": {
+                    //Load The 3 day view as the default
+                    fragment = new CalendarFragment3Day();
+                    fragmentManager = getActivity().getSupportFragmentManager();
+                    final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.add(R.id.flContent, fragment).commit();
+                    getActivity().setTitle("3 Day");
+                    break;
+                }
+                case "CalendarDay": {
+                    //Load The 1 day view as the default
+                    fragment = new CalendarFragmentDay();
+                    fragmentManager = getActivity().getSupportFragmentManager();
+                    final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.add(R.id.flContent, fragment).commit();
+                    getActivity().setTitle("Day");
+                    break;
+                }
+                case "CalendarWeek": {
+                    //Load The week view as the default
+                    fragment = new CalendarFragmentWeek();
+                    fragmentManager = getActivity().getSupportFragmentManager();
+                    final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.add(R.id.flContent, fragment).commit();
+                    getActivity().setTitle("Week");
+                    break;
+                }
+            }
+        }
 
         return mView;
     }

@@ -20,7 +20,30 @@ public class MainActivity extends AppCompatActivity {
         super.setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
-        fragment = new MedicationFragment();
+        String activityString=getIntent().getStringExtra("position");
+        if (activityString==null){
+            fragment = new MedicationFragment();
+        }else if (activityString.equals("Calendar3Day")){
+            Bundle bundle=new Bundle();
+            bundle.putString("message", "Calendar3Day");
+            //set Fragmentclass Arguments
+            fragment=new CalendarMainFragment();
+            fragment.setArguments(bundle);
+        }else if(activityString.equals("CalendarDay")){
+            Bundle bundle=new Bundle();
+            bundle.putString("message", "CalendarDay");
+            //set Fragmentclass Arguments
+            fragment=new CalendarMainFragment();
+            fragment.setArguments(bundle);
+        }else if(activityString.equals("CalendarWeek")){
+            Bundle bundle=new Bundle();
+            bundle.putString("message", "CalendarWeek");
+            //set Fragmentclass Arguments
+            fragment=new CalendarMainFragment();
+            fragment.setArguments(bundle);
+        }
+
+
         fragmentManager = getSupportFragmentManager();
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.main_container, fragment).commit();
@@ -56,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
+
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0) {

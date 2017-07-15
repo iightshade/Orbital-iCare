@@ -88,6 +88,9 @@ public class MedicationEdit extends AppCompatActivity {
     Button saveButton;
     Button cancelButton;
 
+    private Fragment fragment;
+    private android.support.v4.app.FragmentManager fragmentManager;
+
     private static final int PICK_IMAGE_REQUEST = 123;
 
     // Storage Permissions variables
@@ -408,12 +411,36 @@ public class MedicationEdit extends AppCompatActivity {
                             }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    Intent intent = getIntent();
-                                    String activity = intent.getStringExtra("Medicine");
+                                    Intent intent2 = getIntent();
+                                    String activity = intent2.getStringExtra("Medicine");
                                     Toast.makeText(MedicationEdit.this, activity, Toast.LENGTH_SHORT).show();
-                                    //Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
-                                    //startActivity(intent);
-                                    //finish();
+                                    switch (activity) {
+                                        case "MedicationFragment": {
+                                            Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                            break;
+                                        }
+                                        case "CalendarFragment3Day": {
+                                            Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
+                                            intent.putExtra("position", "Calendar3Day");
+                                            startActivity(intent);
+                                            break;
+                                        }
+                                        case "CalendarFragmentDay": {
+                                            Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
+                                            intent.putExtra("position", "CalendarDay");
+                                            startActivity(intent);
+                                            break;
+                                        }
+                                        case "CalendarFragmentWeek": {
+                                            Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
+                                            intent.putExtra("position", "CalendarWeek");
+                                            startActivity(intent);
+                                            break;
+                                        }
+                                    }
+                                    finish();
                                 }
                             });
 
@@ -421,15 +448,23 @@ public class MedicationEdit extends AppCompatActivity {
                     Intent intent2 = getIntent();
                     String activity = intent2.getStringExtra("Medicine");
                     if (activity.equals("MedicationFragment")){
-                        Toast.makeText(MedicationEdit.this, activity, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     } else if (activity.equals("CalendarFragment3Day")){
-                        Fragment mFragment = null;
-                        mFragment = new CalendarFragment3Day();
-                        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-                        fragmentManager.beginTransaction()
-                                .replace(R.id.nav_second_fragment, mFragment).commit();
-
+                        Intent intent=new Intent(MedicationEdit.this,MainActivity.class);
+                        intent.putExtra("position", "Calendar3Day");
+                        startActivity(intent);
+                    } else if (activity.equals("CalendarFragmentDay")){
+                        Intent intent=new Intent(MedicationEdit.this,MainActivity.class);
+                        intent.putExtra("position", "CalendarDay");
+                        startActivity(intent);
+                    } else if(activity.equals("CalendarFragmentWeek")){
+                        Intent intent=new Intent(MedicationEdit.this,MainActivity.class);
+                        intent.putExtra("position", "CalendarWeek");
+                        startActivity(intent);
                     }
+                    finish();
                 }
 
             }
