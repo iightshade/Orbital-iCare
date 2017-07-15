@@ -189,7 +189,7 @@ public class MedicationFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MedicationEdit.class);
                 Medication addNewMedication = null;
-                intent.putExtra("Medicine", addNewMedication);
+                intent.putExtra("Medicine", "MedicationFragment");
                 startActivity(intent);
             }
         });

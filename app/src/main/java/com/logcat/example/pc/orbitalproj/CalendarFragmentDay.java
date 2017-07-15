@@ -53,7 +53,7 @@ public class CalendarFragmentDay extends Fragment implements MonthLoader.MonthCh
         userReference = firebaseDatabase.getReference(userId);
 
         // Inflate the layout for this fragment
-        View mView = inflater.inflate(R.layout.fragment_calendar_week, container, false);
+        View mView = inflater.inflate(R.layout.fragment_calendar, container, false);
         mWeekView = (WeekView) mView.findViewById(R.id.weekView);
 
         mWeekView.setNumberOfVisibleDays(1);

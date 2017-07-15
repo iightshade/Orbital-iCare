@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -16,6 +18,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
@@ -405,16 +408,28 @@ public class MedicationEdit extends AppCompatActivity {
                             }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    Intent intent = getIntent();
+                                    String activity = intent.getStringExtra("Medicine");
+                                    Toast.makeText(MedicationEdit.this, activity, Toast.LENGTH_SHORT).show();
+                                    //Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
+                                    //startActivity(intent);
+                                    //finish();
                                 }
                             });
 
                 } else {
-                    Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    Intent intent2 = getIntent();
+                    String activity = intent2.getStringExtra("Medicine");
+                    if (activity.equals("MedicationFragment")){
+                        Toast.makeText(MedicationEdit.this, activity, Toast.LENGTH_SHORT).show();
+                    } else if (activity.equals("CalendarFragment3Day")){
+                        Fragment mFragment = null;
+                        mFragment = new CalendarFragment3Day();
+                        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.nav_second_fragment, mFragment).commit();
+
+                    }
                 }
 
             }
