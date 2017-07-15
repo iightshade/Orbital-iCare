@@ -102,18 +102,18 @@ public class MedicationFragment extends Fragment {
                     temp = categoriesSnapShot.getValue(Medication.class);
                     tempList.add(temp);
 
-                    Calendar upcoming = upcomingMedication(temp);
-                    if (upcoming != null) {
+                        Calendar upcoming = upcomingMedication(temp);
+                        if (upcoming != null) {
 
-                        Long alarmTime = upcoming.getTimeInMillis();
+                            Long alarmTime = upcoming.getTimeInMillis();
 
-                        Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
-                        intent.putExtra("Key", i);
-                        intent.putExtra("medicationTitle", temp.getMedicationTitle());
+                            Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
+                            intent.putExtra("Key", i);
+                            intent.putExtra("medicationTitle", temp.getMedicationTitle());
 
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
                         alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
                     }

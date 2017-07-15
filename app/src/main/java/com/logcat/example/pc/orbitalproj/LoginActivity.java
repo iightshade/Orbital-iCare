@@ -137,8 +137,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     return;
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+                if(email.endsWith("admin.com") && !adminCheckBox.isChecked()){
+                    Toast.makeText(getApplicationContext(), "Admin Login must be checked for admins", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
+                progressBar.setVisibility(View.VISIBLE);
 
                 //authenticate user
                 auth.signInWithEmailAndPassword(email, password)
