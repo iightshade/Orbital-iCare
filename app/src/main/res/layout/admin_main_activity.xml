@@ -33,13 +33,30 @@
         android:padding="15dp"
         android:textSize="18sp" />
 
+
+    <ListView
+        android:id="@+id/adminListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/adminAccessButton"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/adminSignOutButton" />
+
+    <Button
+        android:id="@+id/adminAddNewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add new"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/adminAccessButton" />
+
     <Button
         android:id="@+id/adminSignOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:text="Sign out"
         android:layout_alignParentBottom="true"
-        android:text="Sign out" />
+        android:layout_toEndOf="@+id/adminAccessButton" />
 
 
 </RelativeLayout>
