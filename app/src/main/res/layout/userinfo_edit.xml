@@ -33,7 +33,8 @@
         android:inputType="text"
         android:padding="5dp"
         android:text=""
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/textView6"
@@ -43,7 +44,8 @@
         android:layout_alignTop="@+id/icTextView"
         android:padding="5dp"
         android:text="NRIC:"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        />
 
     <EditText
         android:id="@+id/icTextView"
@@ -53,7 +55,8 @@
         android:layout_below="@+id/nameTextView"
         android:padding="5dp"
         android:text=""
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/textView9"
@@ -73,7 +76,8 @@
         android:layout_below="@+id/icTextView"
         android:padding="5dp"
         android:text=""
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/textView7"
@@ -93,7 +97,8 @@
         android:layout_below="@+id/ageTextView"
         android:padding="5dp"
         android:text=""
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/AllergiesText"
@@ -114,7 +119,8 @@
         android:layout_below="@+id/sexTextView"
         android:padding="5dp"
         android:text=""
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/textView8"
@@ -138,7 +144,8 @@
         android:inputType="textMultiLine"
         android:padding="5dp"
         android:text=""
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/textView20"
@@ -158,7 +165,8 @@
         android:layout_alignTop="@+id/textView20"
         android:padding="5dp"
         android:text=""
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:ems="10"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"

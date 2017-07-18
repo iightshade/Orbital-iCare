@@ -33,9 +33,6 @@ public class UserinfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
-
-
         View view =  inflater.inflate(R.layout.fragment_userinfo, container, false);
 
         FirebaseAuth userAuth;
@@ -67,13 +64,15 @@ public class UserinfoFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInfo userInfo = dataSnapshot.getValue(UserInfo.class);
 
-                nameTextView.setText(userInfo.getUserName());
-                icTextView.setText(userInfo.getUserIC());
-                ageTextView.setText(userInfo.getUserAge());
-                sexTextView.setText(userInfo.getUserSex());
-                allergiesTextView.setText(userInfo.getUserAllergies());
-                chronicTextView.setText(userInfo.getUserChronic());
-                otherTextView.setText(userInfo.getUserOther());
+                if(userInfo != null) {
+                    nameTextView.setText(userInfo.getUserName());
+                    icTextView.setText(userInfo.getUserIC());
+                    ageTextView.setText(userInfo.getUserAge());
+                    sexTextView.setText(userInfo.getUserSex());
+                    allergiesTextView.setText(userInfo.getUserAllergies());
+                    chronicTextView.setText(userInfo.getUserChronic());
+                    otherTextView.setText(userInfo.getUserOther());
+                }
 
             }
 
