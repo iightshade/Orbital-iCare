@@ -447,24 +447,31 @@ public class MedicationEdit extends AppCompatActivity {
                 } else {
                     Intent intent2 = getIntent();
                     String activity = intent2.getStringExtra("Medicine");
+
                     if (activity.equals("MedicationFragment")){
                         Intent intent = new Intent(MedicationEdit.this, MainActivity.class);
                         startActivity(intent);
                         finish();
+
                     } else if (activity.equals("CalendarFragment3Day")){
                         Intent intent=new Intent(MedicationEdit.this,MainActivity.class);
                         intent.putExtra("position", "Calendar3Day");
                         startActivity(intent);
+                        finish();
+
                     } else if (activity.equals("CalendarFragmentDay")){
                         Intent intent=new Intent(MedicationEdit.this,MainActivity.class);
                         intent.putExtra("position", "CalendarDay");
                         startActivity(intent);
+                        finish();
+
                     } else if(activity.equals("CalendarFragmentWeek")){
                         Intent intent=new Intent(MedicationEdit.this,MainActivity.class);
                         intent.putExtra("position", "CalendarWeek");
                         startActivity(intent);
+                        finish();
+
                     }
-                    finish();
                 }
 
             }

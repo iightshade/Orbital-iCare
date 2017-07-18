@@ -95,29 +95,30 @@ public class MedicationFragment extends Fragment {
 
                 tempList = new ArrayList<Medication>();
                 tempList.clear();
-                int i = 0;
+                int keyCounter = 0;
 
                 for (DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
                     temp = categoriesSnapShot.getValue(Medication.class);
                     tempList.add(temp);
 
                     Calendar upcoming = upcomingMedication(temp);
+
                     if (upcoming != null) {
 
                         Long alarmTime = upcoming.getTimeInMillis();
 
                         Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
-                        intent.putExtra("Key", i);
+                        intent.putExtra("Key", keyCounter);
                         intent.putExtra("medicationTitle", temp.getMedicationTitle());
 
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), keyCounter, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
                         alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
                     }
 
-                    i++;
+                    keyCounter++;
                 }
 
                 MedicationViewAdapter adapter = new MedicationViewAdapter(getActivity(), tempList);
@@ -169,8 +170,8 @@ public class MedicationFragment extends Fragment {
                         }
 
                         if (item.getTitle().toString().equals("Rearrange")) {
+                            rearrangePriorities(position);
                             popupMenu.dismiss();
-
                         }
 
                         if (item.getTitle().toString().equals("Edit")) {
@@ -340,6 +341,39 @@ public class MedicationFragment extends Fragment {
         } else {
             return false;
         }
+    }
+
+    private void rearrangePriorities(final int positionX){
+
+        medicationGridView.setOnItemClickListener(null);
+        medicationGridView.setOnItemLongClickListener(null);
+        medicationFragmentAddButton.setOnClickListener(null);
+
+        medicationGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                userReference.child(tempList.get(positionX).getMedicationId()).setPriority(position);
+                userReference.child(tempList.get(position).getMedicationId()).setPriority(positionX);
+
+                medicationGridView.setOnItemClickListener(null);
+                medicationFragmentAddButton.setOnClickListener(null);
+                medicationFragmentAddButton.setText("Add Medication");
+                onStart();
+            }
+        });
+
+        medicationFragmentAddButton.setText("Cancel swap");
+        medicationFragmentAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                medicationGridView.setOnItemClickListener(null);
+                medicationFragmentAddButton.setOnClickListener(null);
+                medicationFragmentAddButton.setText("Add Medication");
+                onStart();
+            }
+        });
+
     }
 
 }

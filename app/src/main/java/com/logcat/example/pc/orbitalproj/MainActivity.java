@@ -23,18 +23,21 @@ public class MainActivity extends AppCompatActivity {
         String activityString=getIntent().getStringExtra("position");
         if (activityString==null){
             fragment = new MedicationFragment();
+
         }else if (activityString.equals("Calendar3Day")){
             Bundle bundle=new Bundle();
             bundle.putString("message", "Calendar3Day");
             //set Fragmentclass Arguments
             fragment=new CalendarMainFragment();
             fragment.setArguments(bundle);
+
         }else if(activityString.equals("CalendarDay")){
             Bundle bundle=new Bundle();
             bundle.putString("message", "CalendarDay");
             //set Fragmentclass Arguments
             fragment=new CalendarMainFragment();
             fragment.setArguments(bundle);
+
         }else if(activityString.equals("CalendarWeek")){
             Bundle bundle=new Bundle();
             bundle.putString("message", "CalendarWeek");
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
