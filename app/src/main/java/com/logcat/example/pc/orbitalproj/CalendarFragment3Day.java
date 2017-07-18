@@ -180,15 +180,7 @@ public class CalendarFragment3Day extends Fragment implements MonthLoader.MonthC
             }
         }
 
-        List<WeekViewEvent> legitEvents = new ArrayList<WeekViewEvent>();
-
-        for (WeekViewEvent legit : matchedEvents){
-            if (!new LocalDate(legit.getEndTime()).isBefore(new LocalDate(Calendar.getInstance()))){
-                legitEvents.add(legit);
-            }
-        }
-
-        return legitEvents;
+        return matchedEvents;
     }
 
 
