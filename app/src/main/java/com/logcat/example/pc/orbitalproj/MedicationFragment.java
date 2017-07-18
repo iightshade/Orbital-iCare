@@ -96,24 +96,23 @@ public class MedicationFragment extends Fragment {
                 tempList = new ArrayList<Medication>();
                 tempList.clear();
                 int i = 0;
-                //ThreadPoolExecutor threadPoolExecutor =new ExecutorService();
-                //ExecutorService executorService = new ThreadPoolExecutor(4,4,0L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(15));
+
                 for (DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
                     temp = categoriesSnapShot.getValue(Medication.class);
                     tempList.add(temp);
 
-                        Calendar upcoming = upcomingMedication(temp);
-                        if (upcoming != null) {
+                    Calendar upcoming = upcomingMedication(temp);
+                    if (upcoming != null) {
 
-                            Long alarmTime = upcoming.getTimeInMillis();
+                        Long alarmTime = upcoming.getTimeInMillis();
 
-                            Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
-                            intent.putExtra("Key", i);
-                            intent.putExtra("medicationTitle", temp.getMedicationTitle());
+                        Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
+                        intent.putExtra("Key", i);
+                        intent.putExtra("medicationTitle", temp.getMedicationTitle());
 
-                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                            AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
 
                         alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
                     }
@@ -144,10 +143,11 @@ public class MedicationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    Intent intent = new Intent(getActivity(), MedicationViewer.class);
-                    medication = tempList.get(position);
-                    intent.putExtra("Medicine", medication);
-                    startActivity(intent);
+                Intent intent = new Intent(getActivity(), MedicationViewer.class);
+                medication = tempList.get(position);
+                intent.putExtra("Medication", medication);
+                intent.putExtra("Medicine", "MedicationFragment");
+                startActivity(intent);
 
             }
         });
@@ -168,12 +168,20 @@ public class MedicationFragment extends Fragment {
                             popupMenu.dismiss();
                         }
 
+                        if (item.getTitle().toString().equals("Rearrange")) {
+                            popupMenu.dismiss();
+
+                        }
+
                         if (item.getTitle().toString().equals("Edit")) {
                             Intent intent = new Intent(getActivity(), MedicationEdit.class);
                             medication = tempList.get(position);
-                            intent.putExtra("Medicine", medication);
+                            intent.putExtra("Medication", medication);
+                            intent.putExtra("Medicine", "MedicationFragment");
                             startActivity(intent);
+                            popupMenu.dismiss();
                         }
+
 
                         return true;
                     }
@@ -188,7 +196,6 @@ public class MedicationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MedicationEdit.class);
-                Medication addNewMedication = null;
                 intent.putExtra("Medicine", "MedicationFragment");
                 startActivity(intent);
             }
@@ -247,7 +254,7 @@ public class MedicationFragment extends Fragment {
         if ((checkStartAndEndDates(medication)) == false) {
             return null;
         }
-        if(checkTiming(medication) == false){
+        if (checkTiming(medication) == false) {
             return null;
         }
 
@@ -320,7 +327,7 @@ public class MedicationFragment extends Fragment {
         }
     }
 
-    private boolean checkTiming(Medication medication){
+    private boolean checkTiming(Medication medication) {
         // Returns true if current time is before medication time
         Calendar calendar = Calendar.getInstance();
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -328,9 +335,9 @@ public class MedicationFragment extends Fragment {
         int medicationHour = Integer.parseInt(medication.getMedicationHour());
         int medicationMinute = Integer.parseInt(medication.getMedicationMinute());
 
-        if((currentHour*60 + currentMinute) < (medicationHour*60 + medicationMinute)){
+        if ((currentHour * 60 + currentMinute) < (medicationHour * 60 + medicationMinute)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

@@ -104,7 +104,17 @@ public class MedicationViewAdapter extends BaseAdapter {
 
         StorageReference importReference = storageReference.child(medicationId + ".jpg");
 
-        glideMultiThreading(importReference, context, medicationImage);
+        importReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri downloadUrl) {
+                Glide.with(context.getApplicationContext())
+                        .load(downloadUrl)
+                        .dontAnimate()
+                        .into(medicationImage);
+            }
+        });
+
+        //glideMultiThreading(importReference, context, medicationImage);
 
         medicationMainTitle.setText(medication.getMedicationTitle());
 
@@ -122,12 +132,12 @@ public class MedicationViewAdapter extends BaseAdapter {
         return view;
     }
 
-    private static void glideMultiThreading(StorageReference importReference, Context context, ImageView medicationImage) {
+    /*private static void glideMultiThreading(StorageReference importReference, Context context, ImageView medicationImage) {
         ExecutorService executor = Executors.newFixedThreadPool(4);
         Runnable worker = new WorkerThread(importReference, context, medicationImage, "");
         executor.execute(worker);
         executor.shutdown();
         while (!executor.isTerminated()) {
         }
-    }
+    }*/
 }

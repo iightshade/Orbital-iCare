@@ -127,7 +127,7 @@ public class MedicationEdit extends AppCompatActivity {
         verifyStoragePermissions(this);
 
         Intent intent = getIntent();
-        medicationInEdit = intent.getParcelableExtra("Medicine");
+        medicationInEdit = intent.getParcelableExtra("Medication");
 
         calendar = Calendar.getInstance();
         currentDay = calendar.get(Calendar.DAY_OF_MONTH);

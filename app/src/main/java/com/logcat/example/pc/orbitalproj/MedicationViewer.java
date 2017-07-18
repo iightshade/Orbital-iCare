@@ -60,15 +60,13 @@ public class MedicationViewer extends AppCompatActivity{
         returnButton = (Button)findViewById(R.id.returnButton);
 
         intent = getIntent();
-        medication = intent.getParcelableExtra("Medicine");
+        medication = intent.getParcelableExtra("Medication");
 
         medicationTitleText.setText(medication.getMedicationTitle());
         medicationDescriptionText.setText(medication.getMedicationDescription());
 
         String medicationId = medication.getMedicationId();
         StorageReference importReference = storageReference.child(medicationId + ".jpg");
-
-
 
         importReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -79,7 +77,6 @@ public class MedicationViewer extends AppCompatActivity{
                         .into(medicationImage);
             }
         });
-
 
         int numHours = Integer.parseInt(medication.getMedicationHour());
         int numMinutes = Integer.parseInt(medication.getMedicationMinute());
@@ -111,8 +108,10 @@ public class MedicationViewer extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 intent = new Intent(MedicationViewer.this , MedicationEdit.class);
-                intent.putExtra("Medicine", medication);
+                intent.putExtra("Medication", medication);
+                intent.putExtra("Medicine", "MedicationFragment");
                 startActivity(intent);
+                finish();
             }
         });
 

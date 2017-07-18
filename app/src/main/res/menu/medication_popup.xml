@@ -9,6 +9,13 @@
     </item>
 
     <item
+        android:id="@+id/rearrangeMedication"
+        android:enabled="true"
+        android:title="Rearrange"
+        >
+    </item>
+
+    <item
         android:id="@+id/deleteMedication"
         android:enabled="true"
         android:title="Delete"
