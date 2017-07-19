@@ -57,11 +57,11 @@ public class MedicationEdit extends AppCompatActivity {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
+    StorageReference storageReference;
 
     String userId;
     String medicationId;
 
-    StorageReference storageReference;
     Uri uri;
 
     EditText medicationTitleTextView;

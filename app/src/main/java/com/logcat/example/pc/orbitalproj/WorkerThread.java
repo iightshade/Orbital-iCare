@@ -3,6 +3,7 @@ package com.logcat.example.pc.orbitalproj;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;

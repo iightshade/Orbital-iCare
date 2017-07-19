@@ -183,7 +183,6 @@ public class MedicationFragment extends Fragment {
                             popupMenu.dismiss();
                         }
 
-
                         return true;
                     }
                 });
