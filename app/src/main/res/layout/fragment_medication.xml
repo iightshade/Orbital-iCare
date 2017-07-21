@@ -7,13 +7,13 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="60dp">
 
-    <GridView
-        android:id="@+id/medicationGridView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/medicationRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:stretchMode="columnWidth"
         android:numColumns="2">
-    </GridView>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
 
