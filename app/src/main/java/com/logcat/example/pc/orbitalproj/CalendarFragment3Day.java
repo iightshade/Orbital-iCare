@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
@@ -37,7 +38,11 @@ public class CalendarFragment3Day extends Fragment implements MonthLoader.MonthC
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
 
+    ArrayList<Medication> tempList;
+
     String userId;
+
+    Medication medication;
 
     int count=0;
 
@@ -74,6 +79,7 @@ public class CalendarFragment3Day extends Fragment implements MonthLoader.MonthC
     public List<WeekViewEvent> onMonthChange(final int newYear, final int newMonth) {
 
         List<WeekViewEvent> matchedEvents = new ArrayList<WeekViewEvent>();
+        tempList = new ArrayList<Medication>();
 
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -85,6 +91,7 @@ public class CalendarFragment3Day extends Fragment implements MonthLoader.MonthC
                     count++;
 
                     Medication temp = snapshot.getValue(Medication.class);
+                    tempList.add(temp);
                     medicationDays=temp.getMedicationDays();
 
                     for (Integer i=0 ; i<medicationDays.size() ; i++){
@@ -216,6 +223,17 @@ public class CalendarFragment3Day extends Fragment implements MonthLoader.MonthC
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-
+        Intent intent = new Intent(getActivity(), MedicationViewer.class);
+        String targetName = event.getName();
+        medication = null;
+        for (Medication c : tempList) {
+            if (targetName.equals(c.getMedicationTitle())) {
+                medication = c;
+                break;
+            }
+        }
+        intent.putExtra("Medication", medication);
+        intent.putExtra("Medicine", "CalendarFragment3Day");
+        startActivity(intent);
     }
 }

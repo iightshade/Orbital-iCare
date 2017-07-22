@@ -37,7 +37,11 @@ public class CalendarFragmentDay extends Fragment implements MonthLoader.MonthCh
     FirebaseDatabase firebaseDatabase;
     DatabaseReference userReference;
 
+    ArrayList<Medication> tempList;
+
     String userId;
+
+    Medication medication;
 
     int count=0;
 
@@ -74,6 +78,7 @@ public class CalendarFragmentDay extends Fragment implements MonthLoader.MonthCh
     public List<WeekViewEvent> onMonthChange(final int newYear, final int newMonth) {
 
         List<WeekViewEvent> matchedEvents = new ArrayList<WeekViewEvent>();
+        tempList = new ArrayList<Medication>();
 
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -85,6 +90,7 @@ public class CalendarFragmentDay extends Fragment implements MonthLoader.MonthCh
                     count++;
 
                     Medication temp = snapshot.getValue(Medication.class);
+                    tempList.add(temp);
                     medicationDays=temp.getMedicationDays();
 
                     for (Integer i=0 ; i<medicationDays.size() ; i++){
@@ -218,6 +224,17 @@ public class CalendarFragmentDay extends Fragment implements MonthLoader.MonthCh
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-
+        Intent intent = new Intent(getActivity(), MedicationViewer.class);
+        String targetName = event.getName();
+        medication = null;
+        for (Medication c : tempList) {
+            if (targetName.equals(c.getMedicationTitle())) {
+                medication = c;
+                break;
+            }
+        }
+        intent.putExtra("Medication", medication);
+        intent.putExtra("Medicine", "CalendarFragmentDay");
+        startActivity(intent);
     }
 }
