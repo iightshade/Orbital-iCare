@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+//unused, replaced with recycler view adapter
 public class MedicationViewAdapter extends BaseAdapter {
 
     private Activity context;

@@ -15,15 +15,11 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,10 +37,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -63,13 +55,14 @@ public class MedicationFragment extends Fragment {
     Medication temp;
     ArrayList<Medication> tempList;
     Calendar calendar, upcoming;
+    boolean arranging;
+    int positionX;
 
-    //GridView medicationGridView;
     View view;
     Button medicationFragmentAddButton;
 
     GridLayoutManager gridLayoutManager;
-    RecyclerView recyclerView;
+    RecyclerView medicationRecyclerView;
     MedicationViewRecyclerAdapter medicationViewRecyclerAdapter;
 
 
@@ -85,6 +78,7 @@ public class MedicationFragment extends Fragment {
         userReference = firebaseDatabase.getReference(userId);
         storageReference = FirebaseStorage.getInstance().getReference(userId);
 
+        arranging = false;
     }
 
     @Nullable
@@ -93,10 +87,9 @@ public class MedicationFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_medication, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.medicationRecyclerView);
+        medicationRecyclerView = (RecyclerView) view.findViewById(R.id.medicationRecyclerView);
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        //medicationGridView = (GridView) view.findViewById(R.id.medicationGridView);
+        medicationRecyclerView.setLayoutManager(gridLayoutManager);
         medicationFragmentAddButton = (Button) view.findViewById(R.id.medicationFragmentAddButton);
         calendar = Calendar.getInstance();
         upcoming = Calendar.getInstance();
@@ -134,9 +127,7 @@ public class MedicationFragment extends Fragment {
                 }
 
                 medicationViewRecyclerAdapter = new MedicationViewRecyclerAdapter(getActivity(), tempList);
-                recyclerView.setAdapter(medicationViewRecyclerAdapter);
-                //MedicationViewAdapter adapter = new MedicationViewAdapter(getActivity(), tempList);
-                //medicationGridView.setAdapter(adapter);
+                medicationRecyclerView.setAdapter(medicationViewRecyclerAdapter);
 
             }
 
@@ -146,6 +137,84 @@ public class MedicationFragment extends Fragment {
             }
         });
 
+        medicationRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), medicationRecyclerView,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if (arranging == true) {
+                            arranging = false;
+                            userReference.child(tempList.get(positionX).getMedicationId()).setPriority(position);
+                            userReference.child(tempList.get(position).getMedicationId()).setPriority(positionX);
+                            medicationFragmentAddButton.setOnClickListener(null);
+                            medicationFragmentAddButton.setText("Add Medication");
+                            setMedicationFragmentAddButton();
+
+                        } else if (arranging == false) {
+                            Intent intent = new Intent(getActivity(), MedicationViewer.class);
+                            medication = tempList.get(position);
+                            intent.putExtra("Medication", medication);
+                            intent.putExtra("Medicine", "MedicationFragment");
+                            startActivity(intent);
+                        }
+
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, final int position) {
+                        if (arranging == true) {
+                            return;
+                        }
+                        final PopupMenu popupMenu = new PopupMenu(getContext(), view);
+                        popupMenu.getMenuInflater().inflate(R.menu.medication_popup, popupMenu.getMenu());
+
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+
+                                if (item.getTitle().toString().equals("Delete")) {
+                                    ConfirmDelete(position);
+                                    popupMenu.dismiss();
+                                }
+
+                                if (item.getTitle().toString().equals("Rearrange")) {
+                                    arranging = true;
+                                    positionX = position;
+                                    medicationFragmentAddButton.setOnClickListener(null);
+                                    medicationFragmentAddButton.setText("Cancel swap");
+
+                                    medicationFragmentAddButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            arranging = false;
+                                            medicationFragmentAddButton.setOnClickListener(null);
+                                            medicationFragmentAddButton.setText("Add Medication");
+                                            setMedicationFragmentAddButton();
+
+                                        }
+                                    });
+                                    popupMenu.dismiss();
+
+                                }
+
+                                if (item.getTitle().toString().equals("Edit")) {
+                                    Intent intent = new Intent(getActivity(), MedicationEdit.class);
+                                    medication = tempList.get(position);
+                                    intent.putExtra("Medication", medication);
+                                    intent.putExtra("Medicine", "MedicationFragment");
+                                    startActivity(intent);
+                                    popupMenu.dismiss();
+                                }
+
+                                return false;
+                            }
+                        });
+
+                        popupMenu.show();
+                    }
+                }));
+
+        setMedicationFragmentAddButton();
+
         return view;
 
     }
@@ -154,22 +223,7 @@ public class MedicationFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView,
-                new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(getActivity(), MedicationViewer.class);
-                        medication = tempList.get(position);
-                        intent.putExtra("Medication", medication);
-                        intent.putExtra("Medicine", "MedicationFragment");
-                        startActivity(intent);
-                    }
 
-                    @Override
-                    public void onItemLongClick(View view, int position) {
-
-                    }
-                }));
         /*medicationGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -222,17 +276,10 @@ public class MedicationFragment extends Fragment {
             }
         });
 */
-        medicationFragmentAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MedicationEdit.class);
-                intent.putExtra("Medicine", "MedicationFragment");
-                startActivity(intent);
-            }
-        });
+
     }
 
-    /*private boolean ConfirmDelete(Integer position) {
+    private boolean ConfirmDelete(Integer position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme2));
         builder.setTitle("Delete medication?");
         final String dialogMessage = tempList.get(position).getMedicationTitle();
@@ -276,7 +323,7 @@ public class MedicationFragment extends Fragment {
 
         return true;
 
-    }*/
+    }
 
     private Calendar upcomingMedication(Medication medication) {
         //returns a 'Calendar' that contains the medication's most upcoming date and time of consumption
@@ -371,44 +418,19 @@ public class MedicationFragment extends Fragment {
             return false;
         }
     }
-/*
-    private void rearrangePriorities(final int positionX){
 
-        medicationGridView.setOnItemClickListener(null);
-        medicationGridView.setOnItemLongClickListener(null);
-        medicationFragmentAddButton.setOnClickListener(null);
-
-        medicationGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                userReference.child(tempList.get(positionX).getMedicationId()).setPriority(position);
-                userReference.child(tempList.get(position).getMedicationId()).setPriority(positionX);
-
-                medicationGridView.setOnItemClickListener(null);
-                medicationFragmentAddButton.setOnClickListener(null);
-                medicationFragmentAddButton.setText("Add Medication");
-                onStart();
-            }
-        });
-
-        medicationFragmentAddButton.setText("Cancel swap");
+    private void setMedicationFragmentAddButton() {
         medicationFragmentAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                medicationGridView.setOnItemClickListener(null);
-                medicationFragmentAddButton.setOnClickListener(null);
-                medicationFragmentAddButton.setText("Add Medication");
-                onStart();
+                Intent intent = new Intent(getActivity(), MedicationEdit.class);
+                intent.putExtra("Medicine", "MedicationFragment");
+                startActivity(intent);
             }
         });
-
-    }*/
+    }
 
 }
-
-
-
 
 
 

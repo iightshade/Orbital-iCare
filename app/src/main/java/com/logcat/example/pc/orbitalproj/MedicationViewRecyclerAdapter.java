@@ -25,7 +25,6 @@ public class MedicationViewRecyclerAdapter extends RecyclerView.Adapter<Medicati
 
     private Activity context;
     private List<Medication> medicationArrayList;
-    private LayoutInflater layoutInflater;
 
     private static FirebaseAuth userAuth;
     private static StorageReference storageReference;
@@ -33,6 +32,8 @@ public class MedicationViewRecyclerAdapter extends RecyclerView.Adapter<Medicati
 
     private Calendar calendar = Calendar.getInstance();
     private static Integer currentYear, currentMonth, currentDay, currentDate;
+    Integer endYear, endMonth, endDay, endDate;
+
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -78,10 +79,10 @@ public class MedicationViewRecyclerAdapter extends RecyclerView.Adapter<Medicati
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        Medication theMedication = medicationArrayList.get(position);
-        holder.medicationMainTitle.setText(theMedication.getMedicationTitle());
+        Medication medication = medicationArrayList.get(position);
+        holder.medicationMainTitle.setText(medication.getMedicationTitle());
 
-        String medicationId = theMedication.getMedicationId();
+        String medicationId = medication.getMedicationId();
         StorageReference importReference = storageReference.child(medicationId + ".jpg");
         importReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -92,6 +93,17 @@ public class MedicationViewRecyclerAdapter extends RecyclerView.Adapter<Medicati
                         .into(holder.medicationImage);
             }
         });
+
+        endDay = medication.getMedicationEndDay();
+        endMonth = medication.getMedicationEndMonth();
+        endYear = medication.getMedicationEndYear();
+        endDate = endYear * 10000 + endMonth * 100 + endDay;
+
+        if (currentDate > endDate) {
+            holder.medicationImage.setAlpha(0.2f);
+            holder.medicationMainTitle.setAlpha(0.2f);
+            holder.expiredTextView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
