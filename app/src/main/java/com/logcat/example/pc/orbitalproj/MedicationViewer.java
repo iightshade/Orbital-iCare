@@ -107,20 +107,32 @@ public class MedicationViewer extends AppCompatActivity{
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent2 = getIntent();
+                String activity = intent2.getStringExtra("Medicine");
+
                 intent = new Intent(MedicationViewer.this , MedicationEdit.class);
                 intent.putExtra("Medication", medication);
-                intent.putExtra("Medicine", "MedicationFragment");
+
+                if (activity.equals("MedicationFragment")){
+                    intent.putExtra("Medicine", "MedicationFragment");
+                } else if (activity.equals("CalendarFragment3Day")){
+                    intent.putExtra("Medicine", "CalendarFragment3Day");
+                } else if (activity.equals("CalendarFragmentDay")){
+                    intent.putExtra("Medicine", "CalendarFragmentDay");
+                } else if(activity.equals("CalendarFragmentWeek")){
+                    intent.putExtra("Medicine", "CalendarFragmentWeek");
+                }
                 startActivity(intent);
                 finish();
+
             }
         });
 
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(MedicationViewer.this , MainActivity.class);
-                startActivity(intent);   // use finish() only if you want to use it as a back function
-                finish();
+                finish(); // use finish() only if you want to use it as a back function
             }
         });
 
