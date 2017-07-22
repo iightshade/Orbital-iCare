@@ -19,11 +19,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -70,6 +74,11 @@ public class AdminMedicationEdit extends AppCompatActivity {
     TextView timeTextView;
     TextView startDateTextView;
     TextView endDateTextView;
+    Spinner medicationSpinner;
+    EditText medicationQuantityEditText;
+    ArrayAdapter<CharSequence> servingSizeAdapter;
+    String medicationQuantity;
+    Integer medicationServingPosition;
     String medicationHour;
     String medicationMinute;
     int currentHour;
@@ -113,6 +122,8 @@ public class AdminMedicationEdit extends AppCompatActivity {
         medicationTitleTextView = (EditText) findViewById(R.id.medicationTitleTextView);
         medicationDescriptionTextView = (EditText) findViewById(R.id.medicationDescriptionTextView);
         medicationImage = (ImageView) findViewById(R.id.medicationImage);
+        medicationSpinner = (Spinner) findViewById(R.id.medicationSpinner);
+        medicationQuantityEditText = (EditText) findViewById(R.id.medicationQuantityEditText);
         timeTextView = (TextView) findViewById(R.id.timeTextView);
         datesTextView = (TextView) findViewById(R.id.datesTextView);
         startDateTextView = (TextView) findViewById(R.id.startDateTextView);
@@ -128,6 +139,22 @@ public class AdminMedicationEdit extends AppCompatActivity {
         currentMonth = calendar.get(Calendar.MONTH);
         currentYear = calendar.get(Calendar.YEAR);
         currentDate = currentYear * 10000 + currentMonth * 100 + currentDay;
+
+        servingSizeAdapter = ArrayAdapter.createFromResource(this, R.array.servingSize, android.R.layout.simple_spinner_item);
+        servingSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        medicationSpinner.setAdapter(servingSizeAdapter);
+
+        medicationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                medicationServingPosition = position;
+                Log.i("position", String.valueOf(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         if (medicationInEdit != null) {
             //if medication already exists, populate the view with the items.
@@ -151,6 +178,11 @@ public class AdminMedicationEdit extends AppCompatActivity {
                             .into(medicationImage);
                 }
             });
+
+            medicationQuantity = medicationInEdit.getMedicationQuantity();
+            medicationQuantityEditText.setText(medicationQuantity);
+            medicationServingPosition = medicationInEdit.getMedicationServingPosition();
+            medicationSpinner.setSelection(medicationServingPosition);
 
             medicationHour = medicationInEdit.getMedicationHour();
             medicationMinute = medicationInEdit.getMedicationMinute();
@@ -180,6 +212,8 @@ public class AdminMedicationEdit extends AppCompatActivity {
             medicationId = userReference.push().getKey();
             medicationTitleTextView.setText("");
             medicationDescriptionTextView.setText("");
+            medicationQuantity = "0";
+            medicationServingPosition = 0;
             currentHour = 0;
             currentMinute = 0;
             medicationHour = "0";
@@ -348,6 +382,11 @@ public class AdminMedicationEdit extends AppCompatActivity {
                     return;
                 }
 
+                medicationQuantity = medicationQuantityEditText.getText().toString();
+                if(medicationQuantity.equals("")){
+                    medicationQuantity = "0";
+                }
+
                 Integer medicationStartDate = 0, medicationEndDate = 0;
                 medicationStartDate = startYear * 10000 + startMonth * 100 + startDay;
                 medicationEndDate = endYear * 10000 + endMonth * 100 + endDay;
@@ -366,6 +405,8 @@ public class AdminMedicationEdit extends AppCompatActivity {
                         medicationId,
                         medicationTitle,
                         medicationDescription,
+                        medicationQuantity,
+                        medicationServingPosition,
                         medicationHour,
                         medicationMinute,
                         medicationDays,
@@ -477,7 +518,9 @@ public class AdminMedicationEdit extends AppCompatActivity {
             numHour = (numHour - 12);
         }
 
-        if (numHour < 10) {
+        if(numHour == 0){
+            hourString = "12";
+        } else if (numHour < 10) {
             hourString = "0" + Integer.toString(numHour);
         } else {
             hourString = Integer.toString(numHour);
