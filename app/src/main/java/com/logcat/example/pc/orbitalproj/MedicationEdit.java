@@ -105,6 +105,7 @@ public class MedicationEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         super.setTheme(R.style.AppTheme2);
         setContentView(R.layout.medication_edit);
+        getSupportActionBar().setTitle("Medication");
 
         userAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();

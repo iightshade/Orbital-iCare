@@ -1,15 +1,17 @@
 package com.logcat.example.pc.orbitalproj;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,19 +36,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.Calendar;
-
-import static android.content.Context.ALARM_SERVICE;
-
-
 public class SettingsFragment extends Fragment {
 
     private Button signOut, revokeGoogleAccess, deleteAccountButton;
     private GoogleApiClient mGoogleApiClient;
+    private Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar); // need to fix
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar); //need to fix
 
         signOut = (Button) mView.findViewById(R.id.sign_out);
         revokeGoogleAccess = (Button) mView.findViewById(R.id.revokeGoogleAccess);
@@ -111,6 +112,7 @@ public class SettingsFragment extends Fragment {
         return mView;
     }
 
+
     @Override
     public void onStart() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -121,6 +123,7 @@ public class SettingsFragment extends Fragment {
                 .build();
         mGoogleApiClient.connect();
         super.onStart();
+
     }
 
 

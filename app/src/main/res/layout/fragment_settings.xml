@@ -1,36 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/settingsFrag">
 
-
-    <Button
-        android:id="@+id/sign_out"
+    <!-- The ActionBar displayed at the top -->
+    <include
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Out"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:textColor="@android:color/black"
-        />
+        android:id="@+id/include" />
 
-    <Button
-        android:id="@+id/revokeGoogleAccess"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sign_out"
-        android:layout_marginTop="28dp"
-        android:text="Revoke Access"
-        android:layout_alignParentStart="true" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include"
+        android:layout_alignParentStart="true">
 
-    <Button
-        android:id="@+id/deleteFirebaseAccountButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Revoke Access"
-        android:layout_below="@+id/sign_out"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:id="@+id/sign_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign Out"
+            android:background="#ADD8E6"
+            android:layout_marginTop="37dp"
+            android:textColor="@android:color/black"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/revokeGoogleAccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sign_out"
+            android:layout_marginTop="28dp"
+            android:text="Delete Account"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:id="@+id/deleteFirebaseAccountButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Delete Account"
+            android:textColor="@android:color/black"
+            android:background="#F62217"
+            android:layout_below="@+id/sign_out"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
 
 
 </RelativeLayout>
+

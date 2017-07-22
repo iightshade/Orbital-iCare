@@ -2,29 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="60dp">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/medicationRecyclerView"
+    <!-- The ActionBar displayed at the top -->
+    <include
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchMode="columnWidth"
-        android:numColumns="2">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:id="@+id/include2" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="55dp">
 
-    <Button
-        android:id="@+id/medicationFragmentAddButton"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="80dp"
-        android:textSize="20sp"
-        android:text="Add Medication"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/medicationRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchMode="columnWidth"
+            android:numColumns="2">
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/medicationFragmentAddButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="80dp"
+            android:textSize="20sp"
+            android:text="Add Medication"/>
 
 </RelativeLayout>

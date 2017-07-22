@@ -39,6 +39,7 @@ public class UserInfoEdit extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme2);
         setContentView(R.layout.userinfo_edit);
+        getSupportActionBar().setTitle("Edit User Information");
 
         userAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();

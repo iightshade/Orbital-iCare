@@ -43,6 +43,7 @@ public class MedicationViewer extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme2);
         setContentView(R.layout.medication_viewer_layout);
+        getSupportActionBar().setTitle("Medication");
 
         userAuth = FirebaseAuth.getInstance();
         userId = userAuth.getCurrentUser().getUid();
