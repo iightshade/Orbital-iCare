@@ -36,7 +36,7 @@ public class AdminMainActivity extends AppCompatActivity {
     DatabaseReference userReference;
 
     String userId;
-    String usersName;
+    String usersNRIC;
     Medication medication;
     ArrayList<Medication> tempList;
     ArrayList<String> stringList;
@@ -61,7 +61,7 @@ public class AdminMainActivity extends AppCompatActivity {
         adminAccessButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usersName = usersNameEditText.getText().toString();
+                usersNRIC = usersNameEditText.getText().toString();
                 generalDatabaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -69,7 +69,7 @@ public class AdminMainActivity extends AppCompatActivity {
                         for (DataSnapshot categoriesSnapShot : dataSnapshot.getChildren()) {
 
                             if (categoriesSnapShot.getKey().endsWith("info")) {
-                                if (categoriesSnapShot.getValue(UserInfo.class).getUserName().trim().equalsIgnoreCase(usersName)) {
+                                if (categoriesSnapShot.getValue(UserInfo.class).getUserIC().trim().equalsIgnoreCase(usersNRIC)) {
 
                                     userId = categoriesSnapShot.getKey().substring(0, categoriesSnapShot.getKey().length() - 4);
 

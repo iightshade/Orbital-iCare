@@ -72,18 +72,45 @@
                 android:layout_centerHorizontal="true"
                 app:srcCompat="@drawable/no_image" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/quantityText"
+                android:layout_below="@+id/medicationImage"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:id="@+id/medicationQuantityText"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="30dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/medicationSpinnerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="serving"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/timeText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/medicationImage"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="8dp"
-                android:text="00:00 AM"
-                android:textSize="25sp" />
+                android:text="12:00 AM"
+                android:textSize="25sp"
+                android:layout_below="@+id/quantityText"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:id="@+id/daysText"
@@ -97,12 +124,39 @@
                 android:textSize="18sp" />
 
             <LinearLayout
+                android:id="@+id/startEndText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:layout_below="@id/daysText"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Start date"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="End date"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/datesView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:layout_below="@id/daysText"
+                android:layout_below="@id/startEndText"
                 android:layout_centerHorizontal="true"
                 android:orientation="horizontal">
 

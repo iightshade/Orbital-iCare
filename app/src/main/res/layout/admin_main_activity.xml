@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:theme="@style/AppTheme2">
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User's name:"
+        android:text="User's NRIC:"
         android:layout_marginTop="10dp"
         android:textSize="20sp"
         android:layout_alignParentTop="true"
@@ -18,9 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter user's name"
+        android:hint="Enter user's NRIC"
         android:inputType="textPersonName"
-        android:layout_toEndOf="@+id/textView10" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/adminAccessButton"

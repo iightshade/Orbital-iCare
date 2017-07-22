@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 
@@ -25,6 +27,8 @@ public class MedicationViewer extends AppCompatActivity{
     TextView medicationTitleText;
     TextView medicationDescriptionText;
     ImageView medicationImage;
+    TextView medicationQuantityText;
+    TextView medicationSpinnerText;
     TextView timeText;
     TextView daysText;
     TextView startDateText;
@@ -52,6 +56,8 @@ public class MedicationViewer extends AppCompatActivity{
         medicationTitleText = (TextView)findViewById(R.id.medicationTitleText);
         medicationDescriptionText = (TextView)findViewById(R.id.medicationDescriptionText);
         medicationImage = (ImageView) findViewById(R.id.medicationImage) ;
+        medicationQuantityText = (TextView) findViewById(R.id.medicationQuantityText);
+        medicationSpinnerText = (TextView) findViewById(R.id.medicationSpinnerText);
         timeText = (TextView) findViewById(R.id.timeText);
         daysText = (TextView) findViewById(R.id.daysText);
         startDateText = (TextView) findViewById(R.id.startDateText);
@@ -79,11 +85,31 @@ public class MedicationViewer extends AppCompatActivity{
             }
         });
 
+        medicationQuantityText.setText(medication.getMedicationQuantity());
+        switch(medication.getMedicationServingPosition()){
+            case(0):
+                medicationSpinnerText.setText("ml");
+                break;
+            case(1):
+                medicationSpinnerText.setText("Tablet");
+                break;
+            case(2):
+                medicationSpinnerText.setText("Apply");
+                break;
+            case(3):
+                medicationSpinnerText.setText("Teaspoon");
+                break;
+            case(4):
+                medicationSpinnerText.setText("Tablespoon");
+                break;
+            default:
+                medicationSpinnerText.setText("Serving");
+                break;
+        }
+
         int numHours = Integer.parseInt(medication.getMedicationHour());
         int numMinutes = Integer.parseInt(medication.getMedicationMinute());
         setTimeText(numHours, numMinutes);
-
-
         ArrayList<Boolean> medicationDays;
         medicationDays = medication.getMedicationDays();
         boolean[] daysChecked = new boolean[medicationDays.size()];
@@ -153,7 +179,9 @@ public class MedicationViewer extends AppCompatActivity{
             numHour = (numHour - 12);
         }
 
-        if (numHour < 10) {
+        if(numHour == 0){
+            hourString = "12";
+        } else if (numHour < 10) {
             hourString = "0" + Integer.toString(numHour);
         } else {
             hourString = Integer.toString(numHour);

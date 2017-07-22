@@ -13,6 +13,8 @@ public class Medication extends Object implements Parcelable {
     private String medicationId;
     private String medicationTitle;
     private String medicationDescription;
+    private String medicationQuantity;
+    private Integer medicationServingPosition;
     private String medicationHour;
     private String medicationMinute;
     private Integer medicationStartYear;
@@ -26,6 +28,8 @@ public class Medication extends Object implements Parcelable {
     public Medication(String medicationId,
                       String medicationTitle,
                       String medicationDescription,
+                      String medicationQuantity,
+                      Integer medicationServingPosition,
                       String medicationHour,
                       String medicationMinute,
                       ArrayList<Boolean> medicationDays,
@@ -38,6 +42,8 @@ public class Medication extends Object implements Parcelable {
         this.medicationId = medicationId;
         this.medicationTitle = medicationTitle;
         this.medicationDescription = medicationDescription;
+        this.medicationQuantity = medicationQuantity;
+        this.medicationServingPosition = medicationServingPosition;
         this.medicationHour = medicationHour;
         this.medicationMinute = medicationMinute;
         this.medicationDays = medicationDays;
@@ -58,6 +64,8 @@ public class Medication extends Object implements Parcelable {
         medicationId = in.readString();
         medicationTitle = in.readString();
         medicationDescription = in.readString();
+        medicationQuantity = in.readString();
+        medicationServingPosition = in.readInt();
         medicationHour = in.readString();
         medicationMinute = in.readString();
         medicationDays = (ArrayList<Boolean>) in.readSerializable();
@@ -74,6 +82,8 @@ public class Medication extends Object implements Parcelable {
         out.writeString(medicationId);
         out.writeString(medicationTitle);
         out.writeString(medicationDescription);
+        out.writeString(medicationQuantity);
+        out.writeInt(medicationServingPosition);
         out.writeString(medicationHour);
         out.writeString(medicationMinute);
         out.writeSerializable(medicationDays);
@@ -179,6 +189,22 @@ public class Medication extends Object implements Parcelable {
 
     public void setMedicationEndDay(Integer medicationEndDay) {
         this.medicationEndDay = medicationEndDay;
+    }
+
+    public String getMedicationQuantity() {
+        return medicationQuantity;
+    }
+
+    public void setMedicationQuantity(String medicationQuantity) {
+        this.medicationQuantity = medicationQuantity;
+    }
+
+    public Integer getMedicationServingPosition() {
+        return medicationServingPosition;
+    }
+
+    public void setMedicationServingPosition(Integer medicationServingPosition) {
+        this.medicationServingPosition = medicationServingPosition;
     }
 
     @Override
