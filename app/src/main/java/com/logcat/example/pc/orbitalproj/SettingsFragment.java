@@ -46,8 +46,9 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar); // need to fix
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar); //need to fix
+        Toolbar toolbar = (Toolbar) mView.findViewById(R.id.settingsFragmentToolBar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle("Settings");
 
         signOut = (Button) mView.findViewById(R.id.sign_out);
         revokeGoogleAccess = (Button) mView.findViewById(R.id.revokeGoogleAccess);

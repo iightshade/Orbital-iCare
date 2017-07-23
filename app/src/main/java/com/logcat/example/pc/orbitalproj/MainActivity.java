@@ -20,29 +20,29 @@ public class MainActivity extends AppCompatActivity {
         super.setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
-        String activityString=getIntent().getStringExtra("position");
-        if (activityString==null){
+        String activityString = getIntent().getStringExtra("position");
+        if (activityString == null) {
             fragment = new MedicationFragment();
 
-        }else if (activityString.equals("Calendar3Day")){
-            Bundle bundle=new Bundle();
+        } else if (activityString.equals("Calendar3Day")) {
+            Bundle bundle = new Bundle();
             bundle.putString("message", "Calendar3Day");
             //set Fragmentclass Arguments
-            fragment=new CalendarMainFragment();
+            fragment = new CalendarMainFragment();
             fragment.setArguments(bundle);
 
-        }else if(activityString.equals("CalendarDay")){
-            Bundle bundle=new Bundle();
+        } else if (activityString.equals("CalendarDay")) {
+            Bundle bundle = new Bundle();
             bundle.putString("message", "CalendarDay");
             //set Fragmentclass Arguments
-            fragment=new CalendarMainFragment();
+            fragment = new CalendarMainFragment();
             fragment.setArguments(bundle);
 
-        }else if(activityString.equals("CalendarWeek")){
-            Bundle bundle=new Bundle();
+        } else if (activityString.equals("CalendarWeek")) {
+            Bundle bundle = new Bundle();
             bundle.putString("message", "CalendarWeek");
             //set Fragmentclass Arguments
-            fragment=new CalendarMainFragment();
+            fragment = new CalendarMainFragment();
             fragment.setArguments(bundle);
         }
 
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                                 fragment = new UserinfoFragment();
                                 break;
                             case R.id.settings:
-                                fragment=new SettingsFragment();
+                                fragment = new SettingsFragment();
                                 break;
                         }
                         final FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
 
     @Override

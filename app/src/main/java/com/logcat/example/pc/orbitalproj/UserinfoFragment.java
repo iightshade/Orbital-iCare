@@ -36,11 +36,11 @@ public class UserinfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        getActivity().setTitle("HAHA");
-
         View view =  inflater.inflate(R.layout.fragment_userinfo, container, false);
+
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.userInfoFragmentToolBar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle("Userinfo");
 
         FirebaseAuth userAuth;
         FirebaseUser firebaseUser;

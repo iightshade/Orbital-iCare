@@ -8,7 +8,7 @@
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/include2" />
+        android:id="@+id/userInfoFragmentToolBar" />
 
     <TextView
         android:id="@+id/textView"
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:text="Userinfo"
         android:textSize="30sp"
-        android:layout_below="@+id/include2"
+        android:layout_below="@+id/userInfoFragmentToolBar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp" />
 
