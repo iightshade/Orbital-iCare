@@ -44,8 +44,10 @@ public class AdminMainActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setTheme(R.style.AppTheme2);
         setContentView(R.layout.admin_main_activity);
-        setTheme(R.style.AppTheme2);
+        getSupportActionBar().setTitle("Admin");
+
 
         userAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -54,9 +56,13 @@ public class AdminMainActivity extends AppCompatActivity {
 
         Button adminSignOutButton = (Button) findViewById(R.id.adminSignOutButton);
         Button adminAccessButton = (Button) findViewById(R.id.adminAccessButton);
+        final Button viewUserInfo= (Button) findViewById(R.id.viewUserinfo);
         final Button adminAddNewButton = (Button) findViewById(R.id.adminAddNewButton);
         final EditText usersNameEditText = (EditText) findViewById(R.id.usersNameEditText);
         final ListView adminListView = (ListView) findViewById(R.id.adminListView);
+
+        adminAddNewButton.setVisibility(View.GONE);
+        viewUserInfo.setVisibility(View.GONE);
 
         adminAccessButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +76,9 @@ public class AdminMainActivity extends AppCompatActivity {
 
                             if (categoriesSnapShot.getKey().endsWith("info")) {
                                 if (categoriesSnapShot.getValue(UserInfo.class).getUserIC().trim().equalsIgnoreCase(usersNRIC)) {
+
+                                    adminAddNewButton.setVisibility(View.VISIBLE);
+                                    viewUserInfo.setVisibility(View.VISIBLE);
 
                                     userId = categoriesSnapShot.getKey().substring(0, categoriesSnapShot.getKey().length() - 4);
 
@@ -110,6 +119,15 @@ public class AdminMainActivity extends AppCompatActivity {
                                                     Intent intent = new Intent(AdminMainActivity.this, AdminMedicationEdit.class);
                                                     medication = null;
                                                     intent.putExtra("Medicine", medication);
+                                                    intent.putExtra("UserId", userId);
+                                                    startActivity(intent);
+                                                }
+                                            });
+
+                                            viewUserInfo.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent intent= new Intent(AdminMainActivity.this,AdminUserInfo.class);
                                                     intent.putExtra("UserId", userId);
                                                     startActivity(intent);
                                                 }

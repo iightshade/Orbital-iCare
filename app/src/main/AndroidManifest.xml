@@ -30,6 +30,7 @@
         <activity android:name=".UserInfoEdit"/>
         <activity android:name=".AdminMainActivity"/>
         <activity android:name=".AdminMedicationEdit"/>
+        <activity android:name=".AdminUserInfo"/>
 
         <receiver android:name=".NotificationBroadcast"/>
     </application>
