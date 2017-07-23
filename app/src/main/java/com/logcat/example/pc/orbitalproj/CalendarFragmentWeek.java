@@ -133,7 +133,7 @@ public class CalendarFragmentWeek extends Fragment implements MonthLoader.MonthC
                             }
 
 
-                            LocalDate endDate=new LocalDate(temp.getMedicationEndYear(),temp.getMedicationEndMonth()+1,temp.getMedicationEndDay()+1);
+                            LocalDate endDate=new LocalDate(temp.getMedicationEndYear(),temp.getMedicationEndMonth()+1,temp.getMedicationEndDay());
                             LocalDate startDate=new LocalDate(temp.getMedicationStartYear(),temp.getMedicationStartMonth()+1,temp.getMedicationStartDay());
 
                             for (WeekViewEvent event : events) {
@@ -145,7 +145,7 @@ public class CalendarFragmentWeek extends Fragment implements MonthLoader.MonthC
                                 int ehday = dateEndTime.get(Calendar.HOUR_OF_DAY);
                                 int emday = dateEndTime.get(Calendar.MINUTE);
 
-                                for (LocalDate date = new LocalDate(monCal); date.isBefore(endDate); date = date.plusDays(7)) {
+                                for (LocalDate date = new LocalDate(monCal); date.isBefore(endDate.plusDays(1)); date = date.plusDays(7)) {
 
                                     List<WeekViewEvent> looperEvents = new ArrayList<WeekViewEvent>();
 
