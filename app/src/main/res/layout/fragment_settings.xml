@@ -29,9 +29,11 @@
             android:id="@+id/revokeGoogleAccess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sign_out"
             android:layout_marginTop="28dp"
             android:text="Delete Account"
+            android:textColor="@android:color/black"
+            android:background="#F62217"
+            android:layout_below="@+id/sign_out"
             android:layout_alignParentStart="true" />
 
         <Button
@@ -45,7 +47,6 @@
             android:layout_below="@+id/sign_out"
             android:layout_alignParentStart="true" />
     </RelativeLayout>
-
 
 </RelativeLayout>
 
