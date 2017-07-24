@@ -137,7 +137,7 @@
         android:text="Other(s):"
         android:textSize="22sp"
         android:layout_below="@+id/textView8"
-        android:layout_toStartOf="@+id/editUserInfoButton" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/otherTextView"
