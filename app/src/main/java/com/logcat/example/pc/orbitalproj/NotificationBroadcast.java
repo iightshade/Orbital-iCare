@@ -20,6 +20,7 @@ public class NotificationBroadcast extends BroadcastReceiver{
                 .getSystemService(Context.NOTIFICATION_SERVICE);
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        notificationIntent.putExtra("notification", medicationTitle);
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, key, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -30,7 +31,7 @@ public class NotificationBroadcast extends BroadcastReceiver{
                 .setContentTitle("iCare Alert")
                 .setContentText("Eat " + medicationTitle)
                 .setSound(alarmSound)
-                .setOngoing(false)
+                .setOngoing(true)
                 .setAutoCancel(true);
 
         notificationManager.notify(key, builder.build());

@@ -115,8 +115,6 @@ public class MedicationViewAdapter extends BaseAdapter {
             }
         });
 
-        //glideMultiThreading(importReference, context, medicationImage);
-
         medicationMainTitle.setText(medication.getMedicationTitle());
 
         endDay = medication.getMedicationEndDay();
@@ -133,14 +131,4 @@ public class MedicationViewAdapter extends BaseAdapter {
         return view;
     }
 
-
-
-    /*private static void glideMultiThreading(StorageReference importReference, Context context, ImageView medicationImage) {
-        ExecutorService executor = Executors.newFixedThreadPool(4);
-        Runnable worker = new WorkerThread(importReference, context, medicationImage, "");
-        executor.execute(worker);
-        executor.shutdown();
-        while (!executor.isTerminated()) {
-        }
-    }*/
 }

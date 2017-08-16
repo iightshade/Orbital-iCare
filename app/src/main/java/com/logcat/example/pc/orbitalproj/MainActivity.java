@@ -1,11 +1,13 @@
 package com.logcat.example.pc.orbitalproj;
 
+import android.content.Intent;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +25,14 @@ public class MainActivity extends AppCompatActivity {
         String activityString = getIntent().getStringExtra("position");
         if (activityString == null) {
             fragment = new MedicationFragment();
+            Intent intent = getIntent();
+            String notifiedMedication = intent.getStringExtra("notification");
+            if(notifiedMedication != null){
+                Log.i("Notif", "True");
+                Bundle bundle = new Bundle();
+                bundle.putString("notifiedMedication", notifiedMedication);
+                fragment.setArguments(bundle);
+            }
 
         } else if (activityString.equals("Calendar3Day")) {
             Bundle bundle = new Bundle();

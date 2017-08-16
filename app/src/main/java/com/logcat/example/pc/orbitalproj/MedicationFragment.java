@@ -17,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -100,6 +101,7 @@ public class MedicationFragment extends Fragment {
         medicationFragmentAddButton = (Button) view.findViewById(R.id.medicationFragmentAddButton);
         calendar = Calendar.getInstance();
         upcoming = Calendar.getInstance();
+
 
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -221,6 +223,15 @@ public class MedicationFragment extends Fragment {
                 }));
 
         setMedicationFragmentAddButton();
+
+        String notifiedMedication;
+
+        try {
+            notifiedMedication = getArguments().getString("notifiedMedication");
+            Log.i("notifiedMedication", notifiedMedication);
+        } catch (NullPointerException e) {
+            notifiedMedication = null;
+        }
 
         return view;
 

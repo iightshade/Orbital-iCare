@@ -52,7 +52,7 @@ public class CalendarMainFragment extends Fragment {
         String strtext;
 
         try {
-            strtext=getArguments().getString("message");
+            strtext = getArguments().getString("message");
         } catch (NullPointerException e) {
             strtext = null;
         }
@@ -66,7 +66,7 @@ public class CalendarMainFragment extends Fragment {
             transaction.add(R.id.flContent, fragment).commit();
             getActivity().setTitle("3 Day");
         }else{
-            strtext=getArguments().getString("message");
+            strtext = getArguments().getString("message");
             switch (strtext) {
                 case "Calendar3Day": {
                     //Load The 3 day view as the default
