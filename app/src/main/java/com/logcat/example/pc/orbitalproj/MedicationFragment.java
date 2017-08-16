@@ -2,6 +2,7 @@ package com.logcat.example.pc.orbitalproj;
 
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -228,7 +229,33 @@ public class MedicationFragment extends Fragment {
 
         try {
             notifiedMedication = getArguments().getString("notifiedMedication");
-            Log.i("notifiedMedication", notifiedMedication);
+            if(notifiedMedication != null){
+                AlertDialog.Builder notifBuilder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme2));
+                notifBuilder.setCancelable(false);
+                notifBuilder.setTitle("Have you taken " + notifiedMedication + "?");
+                notifBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                notifBuilder.setNeutralButton("Remind me in 5mins", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                notifBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Dialog notifDialog = notifBuilder.show();
+
+            }
+
         } catch (NullPointerException e) {
             notifiedMedication = null;
         }
