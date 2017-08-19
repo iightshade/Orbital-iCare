@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
 
     <application
@@ -32,7 +33,8 @@
         <activity android:name=".AdminMedicationEdit"/>
         <activity android:name=".AdminUserInfo"/>
 
-        <receiver android:name=".NotificationBroadcast"/>
+        <receiver android:name=".NotificationBroadcast" />
+
     </application>
 
 </manifest>

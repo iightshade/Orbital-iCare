@@ -7,12 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.PowerManager;
+import android.support.v4.content.WakefulBroadcastReceiver;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-public class NotificationBroadcast extends BroadcastReceiver{
+public class NotificationBroadcast extends WakefulBroadcastReceiver{
     @Override
     public void onReceive(Context context, Intent intent) {
+
         int key = (int) intent.getExtras().get("Key");
         String medicationTitle = (String) intent.getExtras().get("medicationTitle");
 
@@ -37,3 +40,4 @@ public class NotificationBroadcast extends BroadcastReceiver{
         notificationManager.notify(key, builder.build());
     }
 }
+

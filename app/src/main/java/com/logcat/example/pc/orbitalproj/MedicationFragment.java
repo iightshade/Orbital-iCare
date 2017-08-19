@@ -225,10 +225,9 @@ public class MedicationFragment extends Fragment {
 
         setMedicationFragmentAddButton();
 
-        String notifiedMedication;
-
         try {
-            notifiedMedication = getArguments().getString("notifiedMedication");
+            final String notifiedMedication = getArguments().getString("notifiedMedication");
+            final int key = (getArguments().getInt("Key") * -1);
             if(notifiedMedication != null){
                 AlertDialog.Builder notifBuilder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AppTheme2));
                 notifBuilder.setCancelable(false);
@@ -242,6 +241,18 @@ public class MedicationFragment extends Fragment {
                 notifBuilder.setNeutralButton("Remind me in 5mins", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Calendar calendar = Calendar.getInstance();
+                        Long calendarAdded = calendar.getTimeInMillis() + 1000 * 60;
+                        calendar.setTimeInMillis(calendarAdded);
+
+                        Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
+                        intent.putExtra("Key", key);
+                        intent.putExtra("medicationTitle", notifiedMedication);
+
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), key, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
                         dialog.dismiss();
                     }
                 });
@@ -257,7 +268,7 @@ public class MedicationFragment extends Fragment {
             }
 
         } catch (NullPointerException e) {
-            notifiedMedication = null;
+            String notifiedMedication = null;
         }
 
         return view;

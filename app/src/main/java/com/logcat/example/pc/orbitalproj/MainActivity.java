@@ -27,10 +27,12 @@ public class MainActivity extends AppCompatActivity {
             fragment = new MedicationFragment();
             Intent intent = getIntent();
             String notifiedMedication = intent.getStringExtra("notification");
+            int key = intent.getIntExtra("Key", 0);
             if(notifiedMedication != null){
                 Log.i("Notif", "True");
                 Bundle bundle = new Bundle();
                 bundle.putString("notifiedMedication", notifiedMedication);
+                bundle.putInt("Key", key);
                 fragment.setArguments(bundle);
             }
 
