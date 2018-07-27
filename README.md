@@ -1,4 +1,4 @@
-Orbital project iCare.(In development)
+Orbital project iCare.
 
 Usage guide:
 1. Ensure you have the latest version of Android Studio installed. 
