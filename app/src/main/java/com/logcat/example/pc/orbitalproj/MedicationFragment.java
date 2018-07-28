@@ -69,7 +69,6 @@ public class MedicationFragment extends Fragment {
     RecyclerView medicationRecyclerView;
     MedicationViewRecyclerAdapter medicationViewRecyclerAdapter;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
